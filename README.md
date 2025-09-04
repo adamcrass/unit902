@@ -1,8 +1,8 @@
-# 🛒 Marketplace App (Project Name TBD)
+# 🏢 Unit 902
 
 > A fast, modern, Firebase-backed marketplace built with Vite, React, Chakra UI, and Emotion.
 
-This app allows users to browse, buy, and sell items with real-time data sync, secure authentication, Stripe payments, and Cloudinary-powered images. Built with speed and simplicity in mind, this project uses modern tooling optimized for team development.
+Unit 902 allows users to browse, buy, and sell items with real-time data sync, secure authentication, Stripe payments, and Cloudinary-powered images. Built with speed and simplicity in mind, this project uses modern tooling optimized for team development.
 
 ---
 
@@ -51,8 +51,8 @@ public/
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/transpiled/marketplace-app.git
-cd marketplace-app
+git clone https://github.com/transpiled/unit-902.git
+cd unit-902
 ```
 
 ### 2. Install dependencies

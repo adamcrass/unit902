@@ -1,4 +1,4 @@
-# Contributing to Marketplace App
+# Contributing to Unit 902
 
 ## Theme System
 
