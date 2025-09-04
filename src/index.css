@@ -1,47 +1,15 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+/* ========================
+   Global Reset + Base Styles
+======================== */
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  text-decoration: none;
-}
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-size: 10px;
-}
-
-/* reset.css */
-
-/* Box sizing rules */
+/* Box sizing reset */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
-/* Remove default padding */
-ul,
-ol,
-menu {
-  padding: 0;
-}
-
-/* Remove default margin */
+/* Remove default margin & padding */
 body,
 h1,
 h2,
@@ -56,23 +24,41 @@ blockquote,
 dl,
 dd {
   margin: 0;
+  padding: 0;
 }
 
-/* Set core body defaults */
+/* Remove list styles */
+ul,
+ol,
+menu {
+  list-style: none;
+}
+
+/* Root styles */
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.5;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Body defaults */
 body {
   min-height: 100vh;
   scroll-behavior: smooth;
   text-rendering: optimizeSpeed;
-  line-height: 1.5;
 }
 
-/* Remove list styles on ul, ol elements */
-ul,
-ol {
-  list-style: none;
-}
-
-/* A elements inherit their color to avoid mismatch */
+/* Link styles */
 a {
   text-decoration: none;
   color: inherit;
