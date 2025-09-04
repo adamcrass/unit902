@@ -1,5 +1,137 @@
 # Contributing to Unit 902
 
+## Development Workflow
+
+### Getting Started
+
+1. **Clone and Setup**
+
+   ```bash
+   git clone https://github.com/transpiled/unit902.git
+   cd unit902
+   yarn
+   ```
+
+2. **Development Server**
+
+   ```bash
+   yarn dev  # Starts on http://localhost:1027
+   ```
+
+3. **Watch Mode Development**
+
+   ```bash
+   # Terminal 1: Development server
+   yarn dev
+
+   # Terminal 2: Test watch mode
+   yarn test:watch
+
+   # Terminal 3: Lint watch mode
+   yarn lint:watch
+   ```
+
+### Available Scripts
+
+- `yarn dev` - Start development server on port 1027
+- `yarn test` - Run tests once
+- `yarn test:watch` - Run tests in watch mode (auto-rerun on changes)
+- `yarn lint` - Lint code once
+- `yarn lint:watch` - Lint code in watch mode (auto-rerun on changes)
+- `yarn format` - Format code with Prettier
+- `yarn build` - Build for production
+- `yarn preview` - Preview production build
+
+### Testing Guidelines
+
+- Tests are located in `src/__test__/`
+- Use React Testing Library for component testing
+- Jest is configured with Babel for ES6 support
+- Write tests for custom hooks (e.g., `useFormatPrice`)
+- Aim for meaningful test coverage, not just high percentages
+
+### Code Quality
+
+- ESLint configuration includes Jest environment for test files
+- Prettier handles code formatting automatically
+- Use watch modes during development for continuous feedback
+- All code should pass linting before committing
+
+---
+
+## GitHub CLI Workflow
+
+### Prerequisites
+
+Install GitHub CLI if you haven't already:
+
+```bash
+# macOS
+brew install gh
+
+# Authenticate with GitHub
+gh auth login
+```
+
+### Branch Creation and Development
+
+1. **Create a new feature branch:**
+
+   ```bash
+   # Create feature branch
+   gh issue create --title "Add new feature" --body "Description of the feature"
+   gh issue develop <issue-number> --checkout  # Creates branch from issue
+
+   ```
+
+2. **Development workflow:**
+
+   ```bash
+   # Make your changes
+   # Run tests and linting
+   yarn test
+   yarn lint
+   yarn format
+
+   # Commit changes
+   git add .
+   git commit -m "feat: add your feature description"
+
+   # Push branch
+   git push origin feature/your-feature-name
+   ```
+
+3. **Create Pull Request:**
+
+   ```bash
+   # Create PR from current branch
+   gh pr create --title "Add new feature" --body "Detailed description of changes"
+
+   # Or create PR with template
+   gh pr create --web  # Opens browser for PR creation
+
+   # View PR status
+   gh pr status
+
+   # View PR in browser
+   gh pr view --web
+   ```
+
+4. **PR Management:**
+
+   ```bash
+   # Check out a PR locally for review
+   gh pr checkout <pr-number>
+
+   # Merge PR after approval
+   gh pr merge <pr-number> --squash  # or --merge or --rebase
+
+   # Close PR without merging
+   gh pr close <pr-number>
+   ```
+
+---
+
 ## Theme System
 
 This project uses a standardized theme system that combines Chakra UI with Emotion styled components.
@@ -125,9 +257,65 @@ const CustomButton = styled(Button)`
 3. Ensure consistency across all theme usage
 4. Update this documentation if adding new theme categories
 
+## Custom Hooks
+
+### useFormatPrice Hook
+
+Location: `src/hooks/useFormatPrice.js`
+
+A custom hook for formatting prices from cents to properly formatted currency:
+
+```jsx
+import { useFormatPrice } from "../hooks/useFormatPrice";
+
+const ProductCard = ({ priceInCents }) => {
+  const price = useFormatPrice(priceInCents);
+
+  return (
+    <div>
+      <span>{price.formatted}</span> {/* "$12.99" */}
+      <span>Dollars: {price.dollars}</span> {/* 12 */}
+      <span>Cents: {price.cents}</span> {/* 99 */}
+    </div>
+  );
+};
+```
+
+**Features:**
+
+- Converts cents to formatted currency (e.g., 1299 → "$12.99")
+- Supports different currencies and locales
+- Handles edge cases (null, undefined, zero)
+- Returns object with `formatted`, `dollars`, `cents`, and `raw` values
+- Includes utility functions: `dollarsToCents()` and `centsToDollars()`
+
+**Testing:**
+
+- Comprehensive test suite in `src/__test__/useFormatPrice.test.js`
+- Tests various scenarios including edge cases and different currencies
+
 ## Code Style
 
 - Use consistent indentation (2 spaces)
 - Follow the established theme naming conventions
 - Keep theme files focused on their specific domain
 - Document any complex theme logic with comments
+- Write tests for custom hooks and components
+- Use descriptive names for hooks (e.g., `useFormatPrice` not `usePrice`)
+
+## Pull Request Guidelines
+
+1. **Before submitting:**
+   - Run `yarn lint` to check for linting issues
+   - Run `yarn test` to ensure all tests pass
+   - Run `yarn format` to format code consistently
+
+2. **Testing requirements:**
+   - Add tests for new features and hooks
+   - Update existing tests when modifying functionality
+   - Ensure test coverage for edge cases
+
+3. **Documentation:**
+   - Update README.md for new features or scripts
+   - Update this CONTRIBUTING.md for new development patterns
+   - Add JSDoc comments for new hooks and utilities

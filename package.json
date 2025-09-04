@@ -1,8 +1,15 @@
 {
   "name": "unit-902",
   "packageManager": "yarn@4.6.0",
+  "author": "Adam Crass",
+  "license": "Proprietary",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/transpiled/unit902.git"
+  },
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 1027",
     "build": "vite build",
     "preview": "vite preview",
     "test": "jest",

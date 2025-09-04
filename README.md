@@ -18,8 +18,8 @@ Unit 902 allows users to browse, buy, and sell items with real-time data sync, s
 - **Email Notifications**: SendGrid (via Netlify Functions)
 - **Routing**: React Router
 - **State Management**: React Context API
-- **Testing**: React Testing Library + Jest
-- **Tooling**: Yarn 4 (PnP), fish shell, ESLint, Prettier
+- **Testing**: React Testing Library + Jest + Babel
+- **Tooling**: Yarn 4 (PnP), ESLint, Prettier, Nodemon
 - **Monitoring**: Sentry
 
 ---
@@ -33,9 +33,10 @@ src/
 ├── auth/               # Firebase auth logic
 ├── components/         # Shared UI components
 ├── context/            # React Contexts
-├── hooks/              # Custom hooks
+├── hooks/              # Custom hooks (useFormatPrice, etc.)
 ├── pages/              # Route-based views (Home, Item, Cart, Profile)
 ├── utils/              # Helpers (e.g. price formatter, validators)
+├── __test__/           # Test files
 ├── api/                # Cloudinary, Stripe, SendGrid, etc.
 public/
   ├── index.html
@@ -91,7 +92,11 @@ VITE_SENTRY_DSN=...
 ## 🧪 Testing
 
 ```bash
+# Run tests once
 yarn test
+
+# Run tests in watch mode
+yarn test:watch
 ```
 
 ---
@@ -100,6 +105,36 @@ yarn test
 
 ```bash
 yarn build
+```
+
+---
+
+## 🔧 Development Scripts
+
+```bash
+# Start development server on port 1027
+yarn dev
+
+# Run tests once
+yarn test
+
+# Run tests in watch mode (auto-rerun on file changes)
+yarn test:watch
+
+# Lint code once
+yarn lint
+
+# Lint code in watch mode (auto-rerun on file changes)
+yarn lint:watch
+
+# Format code with Prettier
+yarn format
+
+# Build for production
+yarn build
+
+# Preview production build
+yarn preview
 ```
 
 ---
@@ -152,8 +187,10 @@ yarn dev
 
 - Uses ESLint + Prettier for consistent formatting
 - Built with accessibility (ARIA + keyboard nav)
-- Tests written with RTL + Jest
-- Mobile-first + responsive
+- Tests written with RTL + Jest + Babel for ES6 support
+- Mobile-first + responsive design
+- Custom hooks for reusable logic (e.g., `useFormatPrice`)
+- Watch mode scripts for continuous development feedback
 
 ---
 
