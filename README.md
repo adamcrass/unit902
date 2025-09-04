@@ -38,9 +38,7 @@ src/
 ├── utils/              # Helpers (e.g. price formatter, validators)
 ├── __test__/           # Test files
 ├── api/                # Cloudinary, Stripe, SendGrid, etc.
-public/
-  ├── index.html
-  ├── favicon.svg
+├── public/             # Static assets (favicon, index.html)
 ```
 
 > 📦 **Flat structure**: everything under `src/` with concise directories. No deep nesting.
