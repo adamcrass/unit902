@@ -19,11 +19,9 @@ const HomeContent = styled(Box)`
   height: 100%;
 `;
 
-const Hero = styled(Box)`
+const HomeHero = styled(Box)`
   ${({ theme }) => theme.mixins.flexColCenter}
   padding: ${({ theme }) => theme.layout.spacing.md};
-  width: 20rem;
-  height: 20rem;
   height: 100vh;
   width: 100vw;
 `;
@@ -36,7 +34,7 @@ const SubTitle = styled(Text)`
   ${({ theme }) => theme.mixins.textP1}
 `;
 
-const CallToAction = styled(Box)`
+const HomeCallToAction = styled(Box)`
   ${({ theme }) => theme.mixins.flexColCenter}
   background-color: ${({ theme }) => theme.colors.surface};
   color: ${({ theme }) => theme.colors.textPrimary};
@@ -50,16 +48,16 @@ const Home = () => {
     <HomeContainer>
       <Header />
       <HomeContent>
-        <Hero>
+        <HomeHero>
           <Title>Unit 902</Title>
           <SubTitle>Marketplace</SubTitle>
-        </Hero>
-        <CallToAction>
+        </HomeHero>
+        <HomeCallToAction>
           <Text>Ready to get started?</Text>
           <Button variant="outline" colorScheme="whiteAlpha" size="lg">
             Get Started
           </Button>
-        </CallToAction>
+        </HomeCallToAction>
       </HomeContent>
     </HomeContainer>
   );
