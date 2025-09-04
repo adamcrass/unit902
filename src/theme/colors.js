@@ -1,22 +1,22 @@
 // src/theme/colors.js
 const colors = {
   // Core brand colors
-  primary: "#0ea5e9",         // Sky blue (CTA, links, buttons)
-  secondary: "#64748b",       // Slate gray (supporting accents)
+  primary: "#0ea5e9", // Sky blue (CTA, links, buttons)
+  secondary: "#64748b", // Slate gray (supporting accents)
 
   // Backgrounds
-  background: "#f9fafb",      // Light neutral background
-  surface: "#ffffff",         // Cards, panels, modal backgrounds
+  background: "#f9fafb", // Light neutral background
+  surface: "#ffffff", // Cards, panels, modal backgrounds
 
   // Text
-  textPrimary: "#1e293b",     // Dark blue-gray for readability
-  textSecondary: "#475569",   // Lighter for subtext or muted labels
+  textPrimary: "#1e293b", // Dark blue-gray for readability
+  textSecondary: "#475569", // Lighter for subtext or muted labels
 
   // Accent & UI States
-  success: "#10b981",         // Emerald green
-  warning: "#facc15",         // Yellow
-  danger: "#ef4444",          // Red
-  info: "#3b82f6",            // Blue for alerts/toasts
+  success: "#10b981", // Emerald green
+  warning: "#facc15", // Yellow
+  danger: "#ef4444", // Red
+  info: "#3b82f6", // Blue for alerts/toasts
 
   // Neutrals
   white: "#ffffff",
@@ -31,7 +31,7 @@ const colors = {
 
   // Border / shadows
   border: "#e2e8f0",
-  shadow: "rgba(0, 0, 0, 0.05)"
+  shadow: "rgba(0, 0, 0, 0.05)",
 };
 
-export default colors
+export default colors;

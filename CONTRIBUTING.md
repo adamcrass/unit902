@@ -21,36 +21,38 @@ src/theme/
 ### Theme Usage
 
 #### Emotion Styled Components
+
 ```jsx
-import styled from "@emotion/styled"
+import styled from "@emotion/styled";
 
 const StyledComponent = styled.div`
-  color: ${({theme}) => theme.colors.primary};
-  padding: ${({theme}) => theme.layout.spacing.lg};
-  border-radius: ${({theme}) => theme.layout.borderRadius.md};
-  box-shadow: ${({theme}) => theme.layout.shadows.lg};
-  z-index: ${({theme}) => theme.zIndices.modal};
-  
-  ${({theme}) => theme.mediaQueries.md} {
-    padding: ${({theme}) => theme.layout.spacing.xl};
+  color: ${({ theme }) => theme.colors.primary};
+  padding: ${({ theme }) => theme.layout.spacing.lg};
+  border-radius: ${({ theme }) => theme.layout.borderRadius.md};
+  box-shadow: ${({ theme }) => theme.layout.shadows.lg};
+  z-index: ${({ theme }) => theme.zIndices.modal};
+
+  ${({ theme }) => theme.mediaQueries.md} {
+    padding: ${({ theme }) => theme.layout.spacing.xl};
   }
-  
-  ${({theme}) => theme.mixins.flexCenter};
+
+  ${({ theme }) => theme.mixins.flexCenter};
 `;
 ```
 
 #### Chakra UI with Emotion Wrapper
+
 ```jsx
-import styled from "@emotion/styled"
-import { Button } from "@chakra-ui/react"
+import styled from "@emotion/styled";
+import { Button } from "@chakra-ui/react";
 
 const CustomButton = styled(Button)`
-  background: ${({theme}) => theme.colors.primary};
-  border-radius: ${({theme}) => theme.layout.borderRadius.lg};
-  
+  background: ${({ theme }) => theme.colors.primary};
+  border-radius: ${({ theme }) => theme.layout.borderRadius.lg};
+
   &:hover {
-    background: ${({theme}) => theme.colors.secondary};
-    box-shadow: ${({theme}) => theme.layout.shadows.lg};
+    background: ${({ theme }) => theme.colors.secondary};
+    box-shadow: ${({ theme }) => theme.layout.shadows.lg};
   }
 `;
 ```
@@ -59,6 +61,7 @@ const CustomButton = styled(Button)`
 
 1. **Create the theme file** in `src/theme/` with a descriptive name
 2. **Export a default object** with your theme values:
+
    ```js
    // src/theme/typography.js
    const typography = {
@@ -74,15 +77,16 @@ const CustomButton = styled(Button)`
        medium: 500,
        bold: 700,
      },
-   }
-   
-   export default typography
+   };
+
+   export default typography;
    ```
 
 3. **Import and add to theme** in `src/theme/index.js`:
+
    ```js
-   import typography from "./typography"
-   
+   import typography from "./typography";
+
    export const emotionTheme = {
      colors,
      layout,
@@ -90,7 +94,7 @@ const CustomButton = styled(Button)`
      zIndices,
      mediaQueries,
      typography, // Add your new theme file
-   }
+   };
    ```
 
 4. **Use the namespaced pattern** in components:

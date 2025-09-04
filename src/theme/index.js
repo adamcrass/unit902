@@ -1,11 +1,11 @@
 // Theme configuration that works with both Chakra UI and Emotion
-import { createSystem, defaultConfig } from "@chakra-ui/react"
-import colors from "./colors"
-import layout from "./layout"
-import mixins from "./mixins"
-import zIndices from "./zIndices"
-import mediaQueries from "./mediaQueries"
-import fonts from "./fonts"
+import { createSystem, defaultConfig } from "@chakra-ui/react";
+import colors from "./colors";
+import layout from "./layout";
+import mixins from "./mixins";
+import zIndices from "./zIndices";
+import mediaQueries from "./mediaQueries";
+import fonts from "./fonts";
 
 // Create a custom Chakra system
 export const system = createSystem(defaultConfig);
@@ -18,4 +18,4 @@ export const emotionTheme = {
   zIndices,
   mediaQueries,
   fonts,
-}
+};
