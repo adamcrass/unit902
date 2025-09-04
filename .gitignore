@@ -1,28 +1,71 @@
 # Logs
-logs
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Runtime data
+*.pid
+*.pid.lock
+
+# Build output
+dist/
+dist-ssr/
+build/
 *.local
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+# Cache
+.cache/
+.eslintcache
+.yarn/unplugged/
+.yarn/cache/
+.yarn/install-state.gz*
 
+# Yarn 4 / PnP
+node_modules/
+.pnp.*
+.yarn/*
+!.yarn/patches/
+!.yarn/plugins/
+!.yarn/releases/
+!.yarn/sdks/
+!.yarn/versions/
+!.yarn/patches/.gitkeep
+!.yarn/plugins/.gitkeep
+!.yarn/sdks/.gitkeep
+!.yarn/versions/.gitkeep
+
+# Testing
+coverage/
+*.lcov
 
 # Environment variables
+.env
 .env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# REPL
+.node_repl_history
+
+# Editor / IDE
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+
+# Netlify
+.netlify/
+
+# Sentry
+.sentryclirc
+
+# SSL certs / keys
+*.pem
+
+# Lighthouse
+lighthouse-reports/

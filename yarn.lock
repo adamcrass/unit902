@@ -1475,6 +1475,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fontsource/inter@npm:^5.2.6":
+  version: 5.2.6
+  resolution: "@fontsource/inter@npm:5.2.6"
+  checksum: 10c0/7a1347608aab06e53665272ed41fd906ffa96c57b004e8aae91b98177bba97c54b60305d956254c4771387c383f9bdbd917006fb34c9721c020e6017d33e9a5c
+  languageName: node
+  linkType: hard
+
+"@fontsource/jetbrains-mono@npm:^5.2.6":
+  version: 5.2.6
+  resolution: "@fontsource/jetbrains-mono@npm:5.2.6"
+  checksum: 10c0/51c8ce5ee3af0db9c4e5cfda6eb5f0e49b19c7aa481eb5063ac03699913ef54d6e008511d7fb9ed26d867d76657576d08f3f6959a13570934bb49d25b8ac8d9f
+  languageName: node
+  linkType: hard
+
+"@fontsource/questrial@npm:^5.2.6":
+  version: 5.2.6
+  resolution: "@fontsource/questrial@npm:5.2.6"
+  checksum: 10c0/d258faf4a6d7d10f933537e95ce428f66904d11860ccc045d989b671aa3d81841215153a862525454fea14d409d1b0a918ce2fc8de564f7444650e6ab17cf0f2
+  languageName: node
+  linkType: hard
+
 "@grpc/grpc-js@npm:~1.9.0":
   version: 1.9.15
   resolution: "@grpc/grpc-js@npm:1.9.15"
@@ -6308,6 +6329,9 @@ __metadata:
     "@chakra-ui/react": "npm:^3.26.0"
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.1"
+    "@fontsource/inter": "npm:^5.2.6"
+    "@fontsource/jetbrains-mono": "npm:^5.2.6"
+    "@fontsource/questrial": "npm:^5.2.6"
     "@testing-library/react": "npm:^16.3.0"
     "@vitejs/plugin-react": "npm:^5.0.2"
     eslint: "npm:8.57.0"

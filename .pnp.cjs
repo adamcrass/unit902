@@ -30,6 +30,9 @@ const RAW_RUNTIME_STATE =
           ["@chakra-ui/react", "virtual:72cbb4c60a6a78451b7b234157b12f4d83f8d83c478129b6f3435bb684be0e8706c226db3e4a64e13b9b5e31fc1d94a7cf8bb6013b23e3ee5ee8c573e8da6224#npm:3.26.0"],\
           ["@emotion/react", "virtual:72cbb4c60a6a78451b7b234157b12f4d83f8d83c478129b6f3435bb684be0e8706c226db3e4a64e13b9b5e31fc1d94a7cf8bb6013b23e3ee5ee8c573e8da6224#npm:11.14.0"],\
           ["@emotion/styled", "virtual:72cbb4c60a6a78451b7b234157b12f4d83f8d83c478129b6f3435bb684be0e8706c226db3e4a64e13b9b5e31fc1d94a7cf8bb6013b23e3ee5ee8c573e8da6224#npm:11.14.1"],\
+          ["@fontsource/inter", "npm:5.2.6"],\
+          ["@fontsource/jetbrains-mono", "npm:5.2.6"],\
+          ["@fontsource/questrial", "npm:5.2.6"],\
           ["@testing-library/react", "virtual:72cbb4c60a6a78451b7b234157b12f4d83f8d83c478129b6f3435bb684be0e8706c226db3e4a64e13b9b5e31fc1d94a7cf8bb6013b23e3ee5ee8c573e8da6224#npm:16.3.0"],\
           ["@vitejs/plugin-react", "virtual:72cbb4c60a6a78451b7b234157b12f4d83f8d83c478129b6f3435bb684be0e8706c226db3e4a64e13b9b5e31fc1d94a7cf8bb6013b23e3ee5ee8c573e8da6224#npm:5.0.2"],\
           ["eslint", "npm:8.57.0"],\
@@ -2690,6 +2693,33 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../.yarn/berry/cache/@floating-ui-utils-npm-0.2.10-5e22e99242-10c0.zip/node_modules/@floating-ui/utils/",\
         "packageDependencies": [\
           ["@floating-ui/utils", "npm:0.2.10"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@fontsource/inter", [\
+      ["npm:5.2.6", {\
+        "packageLocation": "../../.yarn/berry/cache/@fontsource-inter-npm-5.2.6-db62938f37-10c0.zip/node_modules/@fontsource/inter/",\
+        "packageDependencies": [\
+          ["@fontsource/inter", "npm:5.2.6"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@fontsource/jetbrains-mono", [\
+      ["npm:5.2.6", {\
+        "packageLocation": "../../.yarn/berry/cache/@fontsource-jetbrains-mono-npm-5.2.6-00a4e6ba3d-10c0.zip/node_modules/@fontsource/jetbrains-mono/",\
+        "packageDependencies": [\
+          ["@fontsource/jetbrains-mono", "npm:5.2.6"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@fontsource/questrial", [\
+      ["npm:5.2.6", {\
+        "packageLocation": "../../.yarn/berry/cache/@fontsource-questrial-npm-5.2.6-98db830b4f-10c0.zip/node_modules/@fontsource/questrial/",\
+        "packageDependencies": [\
+          ["@fontsource/questrial", "npm:5.2.6"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -8350,6 +8380,9 @@ const RAW_RUNTIME_STATE =
           ["@chakra-ui/react", "virtual:72cbb4c60a6a78451b7b234157b12f4d83f8d83c478129b6f3435bb684be0e8706c226db3e4a64e13b9b5e31fc1d94a7cf8bb6013b23e3ee5ee8c573e8da6224#npm:3.26.0"],\
           ["@emotion/react", "virtual:72cbb4c60a6a78451b7b234157b12f4d83f8d83c478129b6f3435bb684be0e8706c226db3e4a64e13b9b5e31fc1d94a7cf8bb6013b23e3ee5ee8c573e8da6224#npm:11.14.0"],\
           ["@emotion/styled", "virtual:72cbb4c60a6a78451b7b234157b12f4d83f8d83c478129b6f3435bb684be0e8706c226db3e4a64e13b9b5e31fc1d94a7cf8bb6013b23e3ee5ee8c573e8da6224#npm:11.14.1"],\
+          ["@fontsource/inter", "npm:5.2.6"],\
+          ["@fontsource/jetbrains-mono", "npm:5.2.6"],\
+          ["@fontsource/questrial", "npm:5.2.6"],\
           ["@testing-library/react", "virtual:72cbb4c60a6a78451b7b234157b12f4d83f8d83c478129b6f3435bb684be0e8706c226db3e4a64e13b9b5e31fc1d94a7cf8bb6013b23e3ee5ee8c573e8da6224#npm:16.3.0"],\
           ["@vitejs/plugin-react", "virtual:72cbb4c60a6a78451b7b234157b12f4d83f8d83c478129b6f3435bb684be0e8706c226db3e4a64e13b9b5e31fc1d94a7cf8bb6013b23e3ee5ee8c573e8da6224#npm:5.0.2"],\
           ["eslint", "npm:8.57.0"],\

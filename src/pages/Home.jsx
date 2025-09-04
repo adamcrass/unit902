@@ -1,6 +1,6 @@
 // src/pages/Home.jsx
 import styled from "@emotion/styled"
-import { Button, HStack, Text } from "@chakra-ui/react"
+import { Heading } from "@chakra-ui/react"
 
 const HomeContainer = styled.div`
   display: flex;
@@ -8,17 +8,20 @@ const HomeContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  color: white;
+  background: ${({theme}) => theme.colors.primary};
+  color: ${({theme}) => theme.colors.white};
+  padding: ${({theme}) => theme.layout.spacing.lg};
+`;
+
+const Title = styled(Heading)`
+  ${({theme}) => theme.mixins.textH2}
 `;
 
 const Home = () => {
 
   return (
     <HomeContainer>
-      <Text fontSize="4xl">Home</Text>
-      <HStack>
-        <Button onClick={() => console.log("click")}>Button</Button>
-      </HStack>
+      <Title>Unit 902</Title>
     </HomeContainer>
   )
 }
