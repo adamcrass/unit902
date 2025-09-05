@@ -142,7 +142,9 @@ const Input = styled.input`
     color: ${colors.gray400};
   }
 
-  ${props => props.hasError && `
+  ${props =>
+    props.hasError &&
+    `
     border-color: ${colors.danger};
     &:focus {
       border-color: ${colors.danger};
@@ -245,7 +247,9 @@ const LoginButton = styled.button`
     transform: none;
   }
 
-  ${props => props.isLoading && `
+  ${props =>
+    props.isLoading &&
+    `
     background: ${colors.gray300};
     cursor: not-allowed;
   `}
@@ -294,7 +298,7 @@ const Divider = styled.div`
 
   &::before,
   &::after {
-    content: '';
+    content: "";
     flex: 1;
     height: 1px;
     background: ${colors.border};
@@ -360,7 +364,9 @@ const GoogleButton = styled.button`
     transform: none;
   }
 
-  ${props => props.isLoading && `
+  ${props =>
+    props.isLoading &&
+    `
     background: ${colors.gray100};
     color: ${colors.gray400};
     cursor: not-allowed;
@@ -557,7 +563,7 @@ const Login = () => {
 
   const handleGoogleSignIn = async () => {
     setIsGoogleLoading(true);
-    
+
     try {
       // Simulate Google sign-in - replace with Firebase Google auth later
       await new Promise(resolve => setTimeout(resolve, 1000));
@@ -653,7 +659,7 @@ const Login = () => {
           </button>
         </SignUpLink>
       </LoginCard>
-      
+
       <BackToHomeLink onClick={handleBackToHome}>
         <ArrowLeft size={16} />
         Back to Home
