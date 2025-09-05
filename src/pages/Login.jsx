@@ -1,7 +1,7 @@
 // src/pages/Login.jsx
 import React, { useState } from "react";
 import styled from "@emotion/styled";
-import { Eye, EyeOff, Mail, Lock } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, ArrowLeft } from "lucide-react";
 import colors from "../theme/colors";
 
 const LoginContainer = styled.div`
@@ -415,6 +415,43 @@ const SignUpLink = styled.div`
   }
 `;
 
+const BackToHomeLink = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-top: 24px;
+  transition: all 0.2s ease;
+  min-height: 44px;
+
+  &:hover {
+    color: ${colors.white};
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  @media (min-width: 480px) {
+    margin-top: 28px;
+    font-size: 15px;
+  }
+
+  @media (min-width: 768px) {
+    margin-top: 32px;
+  }
+`;
+
 // Google Icon Component
 const GoogleIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -511,6 +548,11 @@ const Login = () => {
   const handleSignUp = () => {
     // TODO: Navigate to sign up page
     alert("Sign up page will be implemented");
+  };
+
+  const handleBackToHome = () => {
+    // TODO: Navigate to home page using React Router
+    window.location.href = "/";
   };
 
   const handleGoogleSignIn = async () => {
@@ -611,6 +653,11 @@ const Login = () => {
           </button>
         </SignUpLink>
       </LoginCard>
+      
+      <BackToHomeLink onClick={handleBackToHome}>
+        <ArrowLeft size={16} />
+        Back to Home
+      </BackToHomeLink>
     </LoginContainer>
   );
 };
