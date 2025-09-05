@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { Eye, EyeOff, Mail, Lock, ArrowLeft } from "lucide-react";
-import colors from "../theme/colors";
 
 const LoginContainer = styled.div`
   min-height: 100vh;
@@ -12,15 +11,11 @@ const LoginContainer = styled.div`
   justify-content: center;
   background: linear-gradient(
     135deg,
-    ${colors.primary} 0%,
-    ${colors.info} 100%
+    ${({ theme }) => theme.colors.primary} 0%,
+    ${({ theme }) => theme.colors.info} 100%
   );
   padding: 16px;
-  font-family:
-    "Questrial",
-    -apple-system,
-    BlinkMacSystemFont,
-    sans-serif;
+  font-family: ${({ theme }) => theme.fonts.primary};
 
   @media (min-width: 768px) {
     padding: 24px;
@@ -28,13 +23,13 @@ const LoginContainer = styled.div`
 `;
 
 const LoginCard = styled.div`
-  background: ${colors.surface};
+  background: ${({ theme }) => theme.colors.surface};
   border-radius: 12px;
-  box-shadow: 0 10px 25px ${colors.shadow};
+  box-shadow: 0 10px 25px ${({ theme }) => theme.colors.shadow};
   padding: 24px;
   width: 100%;
   max-width: 400px;
-  border: 1px solid ${colors.border};
+  border: 1px solid ${({ theme }) => theme.colors.border};
 
   @media (min-width: 480px) {
     padding: 32px;
@@ -43,14 +38,14 @@ const LoginCard = styled.div`
 
   @media (min-width: 768px) {
     padding: 48px;
-    box-shadow: 0 20px 40px ${colors.shadow};
+    box-shadow: 0 20px 40px ${({ theme }) => theme.colors.shadow};
   }
 `;
 
 const Title = styled.h1`
   font-size: 24px;
   font-weight: 700;
-  color: ${colors.textPrimary};
+  color: ${({ theme }) => theme.colors.textPrimary};
   margin: 0 0 6px 0;
   text-align: center;
 
@@ -65,7 +60,7 @@ const Title = styled.h1`
 `;
 
 const Subtitle = styled.p`
-  color: ${colors.textSecondary};
+  color: ${({ theme }) => theme.colors.textSecondary};
   font-size: 14px;
   margin: 0 0 24px 0;
   text-align: center;
@@ -109,7 +104,7 @@ const FormGroup = styled.div`
 const Label = styled.label`
   font-size: 13px;
   font-weight: 500;
-  color: ${colors.textPrimary};
+  color: ${({ theme }) => theme.colors.textPrimary};
 
   @media (min-width: 480px) {
     font-size: 14px;
@@ -124,31 +119,31 @@ const Input = styled.input`
   width: 100%;
   padding: 14px 16px;
   padding-left: 40px;
-  border: 1px solid ${colors.border};
+  border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 8px;
   font-size: 16px;
-  color: ${colors.textPrimary};
-  background: ${colors.surface};
+  color: ${({ theme }) => theme.colors.textPrimary};
+  background: ${({ theme }) => theme.colors.surface};
   transition: all 0.2s ease;
   box-sizing: border-box;
   min-height: 48px;
 
   &:focus {
     outline: none;
-    border-color: ${colors.primary};
+    border-color: ${({ theme }) => theme.colors.primary};
     box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
   }
 
   &::placeholder {
-    color: ${colors.gray400};
+    color: ${({ theme }) => theme.colors.gray400};
   }
 
   ${props =>
     props.hasError &&
     `
-    border-color: ${colors.danger};
+    border-color: ${({ theme }) => theme.colors.danger};
     &:focus {
-      border-color: ${colors.danger};
+      border-color: ${({ theme }) => theme.colors.danger};
       box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
     }
   `}
@@ -172,7 +167,7 @@ const InputIcon = styled.div`
   left: 12px;
   top: 50%;
   transform: translateY(-50%);
-  color: ${colors.gray400};
+  color: ${({ theme }) => theme.colors.gray400};
   pointer-events: none;
 
   @media (min-width: 480px) {
@@ -187,7 +182,7 @@ const PasswordToggle = styled.button`
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: ${colors.gray400};
+  color: ${({ theme }) => theme.colors.gray400};
   cursor: pointer;
   padding: 6px;
   border-radius: 4px;
@@ -199,12 +194,12 @@ const PasswordToggle = styled.button`
   justify-content: center;
 
   &:hover {
-    color: ${colors.textSecondary};
+    color: ${({ theme }) => theme.colors.textSecondary};
   }
 
   &:focus {
     outline: none;
-    color: ${colors.primary};
+    color: ${({ theme }) => theme.colors.primary};
   }
 
   @media (min-width: 480px) {
@@ -214,7 +209,7 @@ const PasswordToggle = styled.button`
 `;
 
 const ErrorMessage = styled.span`
-  color: ${colors.danger};
+  color: ${({ theme }) => theme.colors.danger};
   font-size: 14px;
   margin-top: 4px;
 `;
@@ -222,8 +217,8 @@ const ErrorMessage = styled.span`
 const LoginButton = styled.button`
   width: 100%;
   padding: 16px 24px;
-  background: ${colors.primary};
-  color: ${colors.white};
+  background: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.white};
   border: none;
   border-radius: 8px;
   font-size: 16px;
@@ -234,7 +229,7 @@ const LoginButton = styled.button`
   min-height: 52px;
 
   &:hover {
-    background: ${colors.info};
+    background: ${({ theme }) => theme.colors.info};
     transform: translateY(-1px);
   }
 
@@ -243,7 +238,7 @@ const LoginButton = styled.button`
   }
 
   &:disabled {
-    background: ${colors.gray300};
+    background: ${({ theme }) => theme.colors.gray300};
     cursor: not-allowed;
     transform: none;
   }
@@ -251,7 +246,7 @@ const LoginButton = styled.button`
   ${props =>
     props.isLoading &&
     `
-    background: ${colors.gray300};
+    background: ${({ theme }) => theme.colors.gray300};
     cursor: not-allowed;
   `}
 
@@ -264,7 +259,7 @@ const LoginButton = styled.button`
 const ForgotPassword = styled.button`
   background: none;
   border: none;
-  color: ${colors.primary};
+  color: ${({ theme }) => theme.colors.primary};
   font-size: 14px;
   cursor: pointer;
   text-align: center;
@@ -275,13 +270,13 @@ const ForgotPassword = styled.button`
   min-height: 40px;
 
   &:hover {
-    color: ${colors.info};
+    color: ${({ theme }) => theme.colors.info};
     text-decoration: underline;
   }
 
   &:focus {
     outline: none;
-    color: ${colors.info};
+    color: ${({ theme }) => theme.colors.info};
   }
 
   @media (min-width: 480px) {
@@ -294,7 +289,7 @@ const Divider = styled.div`
   display: flex;
   align-items: center;
   margin: 20px 0;
-  color: ${colors.textSecondary};
+  color: ${({ theme }) => theme.colors.textSecondary};
   font-size: 13px;
 
   &::before,
@@ -302,7 +297,7 @@ const Divider = styled.div`
     content: "";
     flex: 1;
     height: 1px;
-    background: ${colors.border};
+    background: ${({ theme }) => theme.colors.border};
   }
 
   &::before {
@@ -334,9 +329,9 @@ const Divider = styled.div`
 const GoogleButton = styled.button`
   width: 100%;
   padding: 14px 24px;
-  background: ${colors.surface};
-  color: ${colors.textPrimary};
-  border: 1px solid ${colors.border};
+  background: ${({ theme }) => theme.colors.surface};
+  color: ${({ theme }) => theme.colors.textPrimary};
+  border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 8px;
   font-size: 15px;
   font-weight: 500;
@@ -349,8 +344,8 @@ const GoogleButton = styled.button`
   min-height: 48px;
 
   &:hover {
-    background: ${colors.gray100};
-    border-color: ${colors.gray300};
+    background: ${({ theme }) => theme.colors.gray100};
+    border-color: ${({ theme }) => theme.colors.gray300};
     transform: translateY(-1px);
   }
 
@@ -359,8 +354,8 @@ const GoogleButton = styled.button`
   }
 
   &:disabled {
-    background: ${colors.gray100};
-    color: ${colors.gray400};
+    background: ${({ theme }) => theme.colors.gray100};
+    color: ${({ theme }) => theme.colors.gray400};
     cursor: not-allowed;
     transform: none;
   }
@@ -368,8 +363,8 @@ const GoogleButton = styled.button`
   ${props =>
     props.isLoading &&
     `
-    background: ${colors.gray100};
-    color: ${colors.gray400};
+    background: ${({ theme }) => theme.colors.gray100};
+    color: ${({ theme }) => theme.colors.gray400};
     cursor: not-allowed;
   `}
 
@@ -384,15 +379,15 @@ const SignUpLink = styled.div`
   text-align: center;
   margin-top: 20px;
   padding-top: 20px;
-  border-top: 1px solid ${colors.border};
-  color: ${colors.textSecondary};
+  border-top: 1px solid ${({ theme }) => theme.colors.border};
+  color: ${({ theme }) => theme.colors.textSecondary};
   font-size: 13px;
   line-height: 1.4;
 
   button {
     background: none;
     border: none;
-    color: ${colors.primary};
+    color: ${({ theme }) => theme.colors.primary};
     font-weight: 500;
     cursor: pointer;
     margin-left: 4px;
@@ -401,7 +396,7 @@ const SignUpLink = styled.div`
     min-height: 32px;
 
     &:hover {
-      color: ${colors.info};
+      color: ${({ theme }) => theme.colors.info};
       text-decoration: underline;
     }
   }
@@ -440,7 +435,7 @@ const BackToHomeLink = styled.button`
   min-height: 44px;
 
   &:hover {
-    color: ${colors.white};
+    color: ${({ theme }) => theme.colors.white};
     background: rgba(255, 255, 255, 0.1);
     transform: translateY(-1px);
   }
