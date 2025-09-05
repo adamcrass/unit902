@@ -7,6 +7,7 @@ import colors from "../theme/colors";
 const LoginContainer = styled.div`
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   background: linear-gradient(
@@ -653,7 +654,7 @@ const Login = () => {
         </GoogleButton>
 
         <SignUpLink>
-          Don't have an account?
+          Dont have an account?
           <button type="button" onClick={handleSignUp}>
             Sign up
           </button>
