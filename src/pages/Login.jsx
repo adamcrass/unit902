@@ -2,7 +2,10 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { Eye, EyeOff, Mail, Lock, ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import Button from "../components/Button";
 import GoogleSignInButton from "../components/GoogleSignInButton";
+import { useAuth } from "../contexts/AuthContext";
 
 const LoginContainer = styled.div`
   min-height: 100vh;
@@ -215,48 +218,6 @@ const ErrorMessage = styled.span`
   margin-top: 4px;
 `;
 
-const LoginButton = styled.button`
-  width: 100%;
-  padding: 16px 24px;
-  background: ${({ theme }) => theme.colors.primary};
-  color: ${({ theme }) => theme.colors.white};
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  margin-top: 4px;
-  min-height: 52px;
-
-  &:hover {
-    background: ${({ theme }) => theme.colors.info};
-    transform: translateY(-1px);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-
-  &:disabled {
-    background: ${({ theme }) => theme.colors.gray300};
-    cursor: not-allowed;
-    transform: none;
-  }
-
-  ${props =>
-    props.isLoading &&
-    `
-    background: ${({ theme }) => theme.colors.gray300};
-    cursor: not-allowed;
-  `}
-
-  @media (min-width: 480px) {
-    padding: 14px 24px;
-    margin-top: 8px;
-  }
-`;
-
 const ForgotPassword = styled.button`
   background: none;
   border: none;
@@ -327,7 +288,6 @@ const Divider = styled.div`
   }
 `;
 
-
 const SignUpLink = styled.div`
   text-align: center;
   margin-top: 20px;
@@ -370,36 +330,11 @@ const SignUpLink = styled.div`
   }
 `;
 
-const BackToHomeLink = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  background: none;
-  border: none;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  padding: 12px 16px;
-  border-radius: 8px;
+const BackToHomeWrapper = styled.div`
   margin-top: 24px;
-  transition: all 0.2s ease;
-  min-height: 44px;
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.white};
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateY(-1px);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
 
   @media (min-width: 480px) {
     margin-top: 28px;
-    font-size: 15px;
   }
 
   @media (min-width: 768px) {
@@ -407,8 +342,9 @@ const BackToHomeLink = styled.button`
   }
 `;
 
-
 const Login = () => {
+  const { signInWithEmail, resetPassword } = useAuth();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -462,21 +398,63 @@ const Login = () => {
 
     setIsLoading(true);
 
-    // Simulate API call - replace with Firebase auth later
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      // TODO: Implement Firebase authentication here
-      alert("Login functionality will be connected to Firebase");
+      const { user, error } = await signInWithEmail(
+        formData.email,
+        formData.password
+      );
+
+      if (error) {
+        // Handle Firebase auth errors
+        if (error.includes("user-not-found")) {
+          setErrors({ email: "No account found with this email address" });
+        } else if (error.includes("wrong-password")) {
+          setErrors({ password: "Incorrect password" });
+        } else if (error.includes("invalid-email")) {
+          setErrors({ email: "Invalid email address" });
+        } else if (error.includes("too-many-requests")) {
+          setErrors({
+            general: "Too many failed attempts. Please try again later.",
+          });
+        } else {
+          setErrors({ general: "Login failed. Please try again." });
+        }
+      } else {
+        // Success - redirect to profile page
+        console.log('Login successful:', user);
+        navigate('/profile');
+      }
     } catch (error) {
       console.error("Login error:", error);
+      setErrors({ general: "An unexpected error occurred. Please try again." });
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleForgotPassword = () => {
-    // TODO: Implement forgot password functionality
-    alert("Forgot password functionality will be implemented with Firebase");
+  const handleForgotPassword = async () => {
+    if (!formData.email) {
+      setErrors({ email: "Please enter your email address first" });
+      return;
+    }
+
+    try {
+      const { error } = await resetPassword(formData.email);
+      if (error) {
+        if (error.includes("user-not-found")) {
+          setErrors({ email: "No account found with this email address" });
+        } else {
+          setErrors({
+            general: "Failed to send reset email. Please try again.",
+          });
+        }
+      } else {
+        alert(`Password reset email sent to ${formData.email}`);
+      }
+    } catch (error) {
+      console.error("Reset password error:", error);
+      setErrors({ general: "An unexpected error occurred. Please try again." });
+    }
   };
 
   const handleSignUp = () => {
@@ -485,23 +463,25 @@ const Login = () => {
   };
 
   const handleBackToHome = () => {
-    // TODO: Navigate to home page using React Router
-    window.location.href = "/";
+    navigate('/');
   };
 
-  const handleGoogleSignIn = async () => {
-    setIsGoogleLoading(true);
+  const handleGoogleSignIn = (user) => {
+    console.log('Google sign-in successful:', user);
+    navigate('/profile');
+  };
 
-    try {
-      // Simulate Google sign-in - replace with Firebase Google auth later
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      console.log("Google sign-in attempt");
-      // TODO: Implement Firebase Google authentication here
-      alert("Google Sign-In will be connected to Firebase");
-    } catch (error) {
-      console.error("Google sign-in error:", error);
-    } finally {
-      setIsGoogleLoading(false);
+  const handleGoogleSignInError = error => {
+    console.error("Google sign-in error:", error);
+    if (error.includes("popup-closed-by-user")) {
+      // User closed the popup, no need to show error
+      return;
+    } else if (error.includes("popup-blocked")) {
+      setErrors({
+        general: "Popup blocked. Please allow popups and try again.",
+      });
+    } else {
+      setErrors({ general: "Google sign-in failed. Please try again." });
     }
   };
 
@@ -559,9 +539,16 @@ const Login = () => {
             {errors.password && <ErrorMessage>{errors.password}</ErrorMessage>}
           </FormGroup>
 
-          <LoginButton type="submit" isLoading={isLoading} disabled={isLoading}>
+          {errors.general && <ErrorMessage>{errors.general}</ErrorMessage>}
+
+          <Button
+            type="submit"
+            variant="primary"
+            isLoading={isLoading}
+            disabled={isLoading}
+          >
             {isLoading ? "Signing In..." : "Sign In"}
-          </LoginButton>
+          </Button>
         </Form>
 
         <ForgotPassword type="button" onClick={handleForgotPassword}>
@@ -571,7 +558,8 @@ const Login = () => {
         <Divider>or continue with</Divider>
 
         <GoogleSignInButton
-          onClick={handleGoogleSignIn}
+          onSuccess={handleGoogleSignIn}
+          onError={handleGoogleSignInError}
           disabled={isGoogleLoading || isLoading}
           isLoading={isGoogleLoading}
         />
@@ -584,10 +572,12 @@ const Login = () => {
         </SignUpLink>
       </LoginCard>
 
-      <BackToHomeLink onClick={handleBackToHome}>
-        <ArrowLeft size={16} />
-        Back to Home
-      </BackToHomeLink>
+      <BackToHomeWrapper>
+        <Button variant="ghost" onClick={handleBackToHome}>
+          <ArrowLeft size={16} />
+          Back to Home
+        </Button>
+      </BackToHomeWrapper>
     </LoginContainer>
   );
 };

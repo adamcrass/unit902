@@ -1,8 +1,9 @@
 // src/components/Header.jsx
 import { useState } from "react";
 import styled from "@emotion/styled";
-import { useLocation, Link } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { useLocation, Link, useNavigate } from "react-router-dom";
+import { Menu, X, LogOut, User } from "lucide-react";
+import { useAuth } from "../contexts/AuthContext";
 
 const HeaderContainer = styled.header`
   position: sticky;
@@ -161,6 +162,35 @@ const NavigationLink = styled(Link)`
   }
 `;
 
+// Authentication buttons
+const AuthButton = styled.button`
+  ${({ theme }) => theme.mixins.textP4}
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  color: ${({ theme }) => theme.colors.white};
+  background: none;
+  border: none;
+  border-radius: ${({ theme }) => theme.layout.borderRadius.md};
+  transition: all 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.surfaceHover};
+    color: ${({ theme }) => theme.colors.primary};
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.primary};
+    outline-offset: 2px;
+  }
+
+  @media (min-width: 768px) {
+    padding: 0.5rem 1rem;
+  }
+`;
+
 // Skip to main content for accessibility
 const SkipLink = styled.a`
   position: absolute;
@@ -181,6 +211,8 @@ const SkipLink = styled.a`
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
   const isActive = pathname => location.pathname === pathname;
 
@@ -199,13 +231,33 @@ const Header = () => {
     }
   };
 
-  // Navigation items
+  // Handle logout
+  const handleLogout = async () => {
+    const { error } = await logout();
+    if (!error) {
+      navigate('/');
+    }
+    closeMobileMenu();
+  };
+
+  // Handle login navigation
+  const handleLogin = () => {
+    navigate('/login');
+    closeMobileMenu();
+  };
+
+  // Handle profile navigation
+  const handleProfile = () => {
+    navigate('/profile');
+    closeMobileMenu();
+  };
+
+  // Navigation items (excluding auth items)
   const navigationItems = [
     { href: "/", label: "Home" },
     { href: "/marketplace", label: "Marketplace" },
     { href: "/about", label: "About" },
     { href: "/contact", label: "Contact" },
-    { href: "/login", label: "Login" },
   ];
 
   return (
@@ -233,6 +285,30 @@ const Header = () => {
                     </NavigationLink>
                   </NavigationItem>
                 ))}
+                
+                {/* Authentication Items */}
+                {user ? (
+                  <>
+                    <NavigationItem>
+                      <AuthButton onClick={handleProfile}>
+                        <User size={16} />
+                        Profile
+                      </AuthButton>
+                    </NavigationItem>
+                    <NavigationItem>
+                      <AuthButton onClick={handleLogout}>
+                        <LogOut size={16} />
+                        Logout
+                      </AuthButton>
+                    </NavigationItem>
+                  </>
+                ) : (
+                  <NavigationItem>
+                    <AuthButton onClick={handleLogin}>
+                      Login
+                    </AuthButton>
+                  </NavigationItem>
+                )}
               </NavigationList>
             </DesktopNavigation>
 
@@ -268,6 +344,30 @@ const Header = () => {
                 </NavigationLink>
               </NavigationItem>
             ))}
+            
+            {/* Mobile Authentication Items */}
+            {user ? (
+              <>
+                <NavigationItem>
+                  <AuthButton onClick={handleProfile}>
+                    <User size={16} />
+                    Profile
+                  </AuthButton>
+                </NavigationItem>
+                <NavigationItem>
+                  <AuthButton onClick={handleLogout}>
+                    <LogOut size={16} />
+                    Logout
+                  </AuthButton>
+                </NavigationItem>
+              </>
+            ) : (
+              <NavigationItem>
+                <AuthButton onClick={handleLogin}>
+                  Login
+                </AuthButton>
+              </NavigationItem>
+            )}
           </NavigationList>
         </MobileNavigation>
       </HeaderContainer>

@@ -1,55 +1,7 @@
 // src/components/GoogleSignInButton.jsx
 import React from "react";
-import styled from "@emotion/styled";
-
-const GoogleButton = styled.button`
-  width: 100%;
-  padding: 14px 24px;
-  background: ${({ theme }) => theme.colors.surface};
-  color: ${({ theme }) => theme.colors.textPrimary};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: 8px;
-  font-size: 15px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  min-height: 48px;
-
-  &:hover {
-    background: ${({ theme }) => theme.colors.gray100};
-    border-color: ${({ theme }) => theme.colors.gray300};
-    transform: translateY(-1px);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-
-  &:disabled {
-    background: ${({ theme }) => theme.colors.gray100};
-    color: ${({ theme }) => theme.colors.gray400};
-    cursor: not-allowed;
-    transform: none;
-  }
-
-  ${props =>
-    props.isLoading &&
-    `
-    background: ${({ theme }) => theme.colors.gray100};
-    color: ${({ theme }) => theme.colors.gray400};
-    cursor: not-allowed;
-  `}
-
-  @media (min-width: 480px) {
-    padding: 12px 24px;
-    font-size: 16px;
-    gap: 12px;
-  }
-`;
+import Button from "./Button";
+import { useAuth } from "../contexts/AuthContext";
 
 // Google Icon Component
 const GoogleIcon = () => (
@@ -73,18 +25,29 @@ const GoogleIcon = () => (
   </svg>
 );
 
-const GoogleSignInButton = ({ onClick, isLoading, disabled, ...props }) => {
+const GoogleSignInButton = ({ onSuccess, onError, isLoading, disabled, ...props }) => {
+  const { signInWithGoogle } = useAuth();
+
+  const handleGoogleSignIn = async () => {
+    const { user, error } = await signInWithGoogle();
+    
+    if (error) {
+      onError?.(error);
+    } else {
+      onSuccess?.(user);
+    }
+  };
+
   return (
-    <GoogleButton
-      type="button"
-      onClick={onClick}
-      disabled={disabled || isLoading}
+    <Button
+      onClick={handleGoogleSignIn}
       isLoading={isLoading}
+      disabled={disabled}
       {...props}
     >
       <GoogleIcon />
       {isLoading ? "Signing in..." : "Continue with Google"}
-    </GoogleButton>
+    </Button>
   );
 };
 
