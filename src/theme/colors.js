@@ -17,6 +17,8 @@ const colors = {
   warning: "#facc15", // Yellow
   danger: "#ef4444", // Red
   info: "#3b82f6", // Blue for alerts/toasts
+  primarySoft: "#e0f2fe", // Light blue for soft backgrounds
+  surfaceHover: "#f8fafc", // Hover state for surface elements
 
   // Neutrals
   white: "#ffffff",

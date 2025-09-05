@@ -22,7 +22,7 @@ const HomeContent = styled(Box)`
 const HomeHero = styled(Box)`
   ${({ theme }) => theme.mixins.flexColCenter}
   padding: ${({ theme }) => theme.layout.spacing.md};
-  height: 100vh;
+  min-height: 100vh;
   width: 100vw;
 `;
 
@@ -40,7 +40,17 @@ const HomeCallToAction = styled(Box)`
   color: ${({ theme }) => theme.colors.textPrimary};
   padding: ${({ theme }) => theme.layout.spacing.md};
   width: 100%;
-  height: 40rem;
+  min-height: 40rem;
+`;
+
+const TestSection = styled(Box)`
+  ${({ theme }) => theme.mixins.flexColCenter}
+  background-color: ${({ theme }) => theme.colors.primarySoft};
+  color: ${({ theme }) => theme.colors.textPrimary};
+  padding: ${({ theme }) => theme.layout.spacing.lg};
+  width: 100%;
+  min-height: 50rem;
+  gap: 2rem;
 `;
 
 const Home = () => {
@@ -58,6 +68,21 @@ const Home = () => {
             Get Started
           </Button>
         </HomeCallToAction>
+        <TestSection>
+          <Heading size="lg">Scroll Test Section</Heading>
+          <Text textAlign="center" maxWidth="600px">
+            This section provides additional content to test the header scroll behavior. 
+            As you scroll down from the hero section, you should see the header background 
+            transition from transparent to white, and the text color change from white to primary.
+          </Text>
+          <Text textAlign="center" maxWidth="600px">
+            The navigation links and buttons should also update their hover states based on 
+            whether the header is in its transparent or scrolled state.
+          </Text>
+          <Button colorScheme="blue" size="md">
+            Test Button
+          </Button>
+        </TestSection>
       </HomeContent>
     </HomeContainer>
   );
