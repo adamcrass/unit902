@@ -1,41 +1,47 @@
 // src/pages/Home.jsx
+import React, { useEffect } from "react";
 import styled from "@emotion/styled";
-import { Box, Heading, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
+
+import HomeHeader from "../components/HomeHeader";
+import HomeHero from "../components/HomeHero";
+import HomeAbout from "../components/HomeAbout";
+import HomeContact from "../components/HomeContact";
+import HomeCTA from "../components/HomeCTA";
+import HomeFooter from "../components/HomeFooter";
+import { setupHashNavigation } from "../utils/smoothScroll";
 
 const HomeContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  width: 100vw;
   background: ${({ theme }) => theme.colors.primary};
   color: ${({ theme }) => theme.colors.white};
-  padding: ${({ theme }) => theme.layout.spacing.lg};
 `;
 
 const HomeContent = styled(Box)`
   ${({ theme }) => theme.mixins.flexColCenter}
-  border: 1px solid ${({ theme }) => theme.colors.white};
-  padding: ${({ theme }) => theme.layout.spacing.md};
-  height: 20rem;
-  width: 20rem;
-`;
-
-const Title = styled(Heading)`
-  ${({ theme }) => theme.mixins.textH2}
-`;
-
-const SubTitle = styled(Text)`
-  ${({ theme }) => theme.mixins.textP1}
+  width: 100%;
 `;
 
 const Home = () => {
+  useEffect(() => {
+    // Set up hash navigation for smooth scrolling to sections
+    const cleanup = setupHashNavigation(120);
+
+    return cleanup; // Cleanup listeners on unmount
+  }, []);
+
   return (
     <HomeContainer>
+      <HomeHeader />
       <HomeContent>
-        <Title>Unit 902</Title>
-        <SubTitle>Marketplace</SubTitle>
+        <HomeHero />
+        <HomeCTA />
+        <HomeAbout />
+        <HomeContact />
       </HomeContent>
+      <HomeFooter />
     </HomeContainer>
   );
 };
