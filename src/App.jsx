@@ -3,6 +3,7 @@ import { ThemeProvider } from "@emotion/react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ScrollProvider } from "./contexts/ScrollContext";
+import { NavigationProvider } from "./contexts/NavigationContext";
 
 import { system, emotionTheme } from "./theme";
 import Home from "./pages/Home";
@@ -19,7 +20,8 @@ const App = () => {
         <ChakraProvider value={system}>
           <ThemeProvider theme={emotionTheme}>
             <Router>
-              <Routes>
+              <NavigationProvider>
+                <Routes>
                 <Route path="/" element={<Home />} />
                 <Route
                   path="/login"
@@ -45,7 +47,8 @@ const App = () => {
                     </ProtectedRoute>
                   }
                 />
-              </Routes>
+                </Routes>
+              </NavigationProvider>
             </Router>
           </ThemeProvider>
         </ChakraProvider>
