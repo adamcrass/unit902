@@ -8,7 +8,7 @@ import Button from "../components/Button";
 
 const ProfileContainer = styled.div`
   min-height: 100vh;
-  background: ${({ theme }) => theme.colors.gray50 || "#f9fafb"};
+  background: ${({ theme }) => theme.colors.surface};
   font-family: ${({ theme }) => theme.fonts.primary};
 `;
 
@@ -20,8 +20,8 @@ const ProfileHeader = styled.div`
   );
   color: ${({ theme }) => theme.colors.white};
   padding: 2rem 1rem;
-  
-  @media (min-width: 768px) {
+
+  ${({ theme }) => theme.mediaQueries.md} {
     padding: 3rem 2rem;
   }
 `;
@@ -40,14 +40,14 @@ const BackButton = styled.button`
   gap: 0.5rem;
   background: none;
   border: none;
-  color: rgba(255, 255, 255, 0.8);
+  color: ${({ theme }) => theme.colors.white};
   font-size: 14px;
   cursor: pointer;
   padding: 0.5rem 0;
   transition: color 0.2s ease;
-  
+
   &:hover {
-    color: ${({ theme }) => theme.colors.white};
+    color: ${({ theme }) => theme.colors.secondary};
   }
 `;
 
@@ -57,7 +57,7 @@ const ProfileInfo = styled.div`
   align-items: center;
   text-align: center;
   gap: 1rem;
-  
+
   @media (min-width: 768px) {
     flex-direction: row;
     text-align: left;
@@ -72,7 +72,7 @@ const Avatar = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   @media (min-width: 768px) {
     width: 100px;
     height: 100px;
@@ -87,7 +87,7 @@ const UserName = styled.h1`
   font-size: 24px;
   font-weight: 700;
   margin: 0 0 0.5rem 0;
-  
+
   @media (min-width: 768px) {
     font-size: 32px;
   }
@@ -103,7 +103,7 @@ const ProfileContent = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1rem;
-  
+
   @media (min-width: 768px) {
     padding: 3rem 2rem;
   }
@@ -120,7 +120,7 @@ const ProfileCard = styled.div`
 const CardHeader = styled.div`
   padding: 1.5rem;
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
-  
+
   h2 {
     font-size: 20px;
     font-weight: 600;
@@ -136,7 +136,7 @@ const CardContent = styled.div`
 const InfoGrid = styled.div`
   display: grid;
   gap: 1.5rem;
-  
+
   @media (min-width: 768px) {
     grid-template-columns: 1fr 1fr;
   }
@@ -158,13 +158,13 @@ const InfoIcon = styled.div`
 
 const InfoText = styled.div`
   flex: 1;
-  
+
   .label {
     font-size: 14px;
     color: ${({ theme }) => theme.colors.textSecondary};
     margin-bottom: 0.25rem;
   }
-  
+
   .value {
     font-size: 16px;
     color: ${({ theme }) => theme.colors.textPrimary};
@@ -188,29 +188,29 @@ const Profile = () => {
   const handleLogout = async () => {
     const { error } = await logout();
     if (!error) {
-      navigate('/');
+      navigate("/");
     }
   };
 
   const handleBackToHome = () => {
-    navigate('/');
+    navigate("/");
   };
 
   // Format join date
-  const formatJoinDate = (user) => {
+  const formatJoinDate = user => {
     if (user?.metadata?.creationTime) {
-      return new Date(user.metadata.creationTime).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
+      return new Date(user.metadata.creationTime).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
       });
     }
-    return 'Unknown';
+    return "Unknown";
   };
 
   // Get display name
-  const getDisplayName = (user) => {
-    return user?.displayName || user?.email?.split('@')[0] || 'User';
+  const getDisplayName = user => {
+    return user?.displayName || user?.email?.split("@")[0] || "User";
   };
 
   return (
@@ -221,7 +221,7 @@ const Profile = () => {
             <ArrowLeft size={16} />
             Back to Home
           </BackButton>
-          
+
           <ProfileInfo>
             <Avatar>
               <User size={40} />
@@ -250,7 +250,7 @@ const Profile = () => {
                   <div className="value">{user?.email}</div>
                 </InfoText>
               </InfoItem>
-              
+
               <InfoItem>
                 <InfoIcon>
                   <User size={20} />
@@ -260,7 +260,7 @@ const Profile = () => {
                   <div className="value">{getDisplayName(user)}</div>
                 </InfoText>
               </InfoItem>
-              
+
               <InfoItem>
                 <InfoIcon>
                   <Calendar size={20} />
@@ -270,7 +270,7 @@ const Profile = () => {
                   <div className="value">{formatJoinDate(user)}</div>
                 </InfoText>
               </InfoItem>
-              
+
               <InfoItem>
                 <InfoIcon>
                   <User size={20} />
@@ -278,16 +278,13 @@ const Profile = () => {
                 <InfoText>
                   <div className="label">Account Status</div>
                   <div className="value">
-                    {user?.emailVerified ? 'Verified' : 'Unverified'}
+                    {user?.emailVerified ? "Verified" : "Unverified"}
                   </div>
                 </InfoText>
               </InfoItem>
             </InfoGrid>
 
             <ActionsSection>
-              <Button variant="ghost" onClick={handleBackToHome}>
-                Back to Home
-              </Button>
               <Button variant="primary" onClick={handleLogout}>
                 <LogOut size={16} />
                 Sign Out

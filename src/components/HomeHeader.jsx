@@ -8,7 +8,7 @@ import MobileMenuButton from "./MobileMenuButton";
 const HeaderContainer = styled.header`
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: ${({ theme }) => theme.zIndices.header};
   background-color: ${({ isScrolled, theme }) =>
     isScrolled ? theme.colors.surface : "transparent"};
   width: 100%;

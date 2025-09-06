@@ -141,6 +141,7 @@ const DesktopNavigation = () => {
         ))}
 
         {/* Authentication Items */}
+        {/* TODO: move to profile menu */}
         {user ? (
           <>
             <NavigationItem>
