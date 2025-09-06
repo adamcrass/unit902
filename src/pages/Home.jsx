@@ -1,9 +1,9 @@
 // src/pages/Home.jsx
 import React, { useEffect } from "react";
 import styled from "@emotion/styled";
-import { Box, Heading, Text, Button } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 
-import Header from "../components/Header";
+import HomeHeader from "../components/HomeHeader";
 import HomeHero from "../components/HomeHero";
 import HomeAbout from "../components/HomeAbout";
 import HomeContact from "../components/HomeContact";
@@ -34,7 +34,7 @@ const Home = () => {
 
   return (
     <HomeContainer>
-      <Header />
+      <HomeHeader />
       <HomeContent>
         <HomeHero />
         <HomeCTA />

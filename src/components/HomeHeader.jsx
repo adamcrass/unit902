@@ -1,4 +1,4 @@
-// src/components/Header.jsx
+// src/components/HomeHeader.jsx
 import { useState } from "react";
 import styled from "@emotion/styled";
 import { useLocation, Link, useNavigate } from "react-router-dom";
@@ -162,7 +162,7 @@ const NavigationItem = styled.li`
   margin: 0;
 `;
 
-const NavigationLink = styled('div', {
+const NavigationLink = styled("div", {
   shouldForwardProp: prop => prop !== "isScrolled" && prop !== "as",
 })`
   ${({ theme }) => theme.mixins.textP4}
@@ -272,7 +272,7 @@ const SkipLink = styled.a`
   }
 `;
 
-const Header = () => {
+const HomeHeader = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { isScrolled } = useScrollContext();
   const location = useLocation();
@@ -318,10 +318,10 @@ const Header = () => {
   };
 
   // Handle navigation clicks (including hash navigation)
-  const handleNavigation = (href) => {
-    if (href.startsWith('#')) {
+  const handleNavigation = href => {
+    if (href.startsWith("#")) {
       // Hash navigation - only scroll if we're on the home page
-      if (location.pathname === '/') {
+      if (location.pathname === "/") {
         const elementId = href.substring(1);
         scrollToElement(elementId, 100); // 100px offset for header
       } else {
@@ -365,8 +365,8 @@ const Header = () => {
                 {navigationItems.map(item => (
                   <NavigationItem key={item.href}>
                     <NavigationLink
-                      as={item.href.startsWith('#') ? 'button' : Link}
-                      to={item.href.startsWith('#') ? undefined : item.href}
+                      as={item.href.startsWith("#") ? "button" : Link}
+                      to={item.href.startsWith("#") ? undefined : item.href}
                       onClick={() => handleNavigation(item.href)}
                       isScrolled={isScrolled}
                       aria-current={isActive(item.href) ? "page" : undefined}
@@ -433,8 +433,8 @@ const Header = () => {
             {navigationItems.map(item => (
               <NavigationItem key={item.href}>
                 <NavigationLink
-                  as={item.href.startsWith('#') ? 'button' : Link}
-                  to={item.href.startsWith('#') ? undefined : item.href}
+                  as={item.href.startsWith("#") ? "button" : Link}
+                  to={item.href.startsWith("#") ? undefined : item.href}
                   onClick={() => handleNavigation(item.href)}
                   isScrolled={isScrolled}
                   aria-current={isActive(item.href) ? "page" : undefined}
@@ -474,4 +474,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default HomeHeader;
