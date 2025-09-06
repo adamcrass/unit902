@@ -1,11 +1,15 @@
 // src/components/Header.jsx
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styled from "@emotion/styled";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { Menu, X, LogOut, User } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
+import { useScrollContext } from "../contexts/ScrollContext";
+import { scrollToElement } from "../utils/smoothScroll";
 
-const HeaderContainer = styled.header`
+const HeaderContainer = styled("header", {
+  shouldForwardProp: prop => prop !== "isScrolled",
+})`
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -24,45 +28,48 @@ const HeaderWrapper = styled.div`
   margin: 0 auto;
   padding: 0 1rem;
 
-  @media (min-width: 768px) {
+  ${({ theme }) => theme.mediaQueries.md} {
     padding: 0 2rem;
   }
 `;
 
-const HeaderContent = styled.div`
+const HeaderContent = styled("div", {
+  shouldForwardProp: prop => prop !== "isScrolled",
+})`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 4rem;
+  height: 8rem;
   color: ${({ isScrolled, theme }) =>
     isScrolled ? theme.colors.textPrimary : theme.colors.white};
   transition: color 0.3s ease;
 
-  @media (min-width: 768px) {
-    height: 5rem;
+  ${({ theme }) => theme.mediaQueries.md} {
+    height: 8rem;
   }
 `;
 
-const Logo = styled(Link)`
+const Logo = styled(Link, {
+  shouldForwardProp: prop => prop !== "isScrolled",
+})`
   display: flex;
   align-items: center;
   text-decoration: none;
   color: inherit;
   font-weight: 700;
   font-size: 1.5rem;
-  letter-spacing: -0.025em;
   transition: color 0.3s ease;
 
   @media (hover: hover) and (pointer: fine) {
     &:hover {
       color: ${({ isScrolled, theme }) =>
-        isScrolled ? theme.colors.primary : "rgba(255, 255, 255, 0.8)"};
+        isScrolled ? theme.colors.primary : theme.colors.whiteShadowDark};
     }
   }
 
   &:active {
     color: ${({ isScrolled, theme }) =>
-      isScrolled ? theme.colors.primary : "rgba(255, 255, 255, 0.8)"};
+      isScrolled ? theme.colors.primary : theme.colors.whiteShadowDark};
   }
 
   &:focus-visible {
@@ -72,7 +79,9 @@ const Logo = styled(Link)`
   }
 `;
 
-const LogoText = styled.h5`
+const LogoText = styled("h5", {
+  shouldForwardProp: prop => prop !== "isScrolled",
+})`
   ${({ theme }) => theme.mixins.textH5}
   color: ${({ isScrolled, theme }) =>
     isScrolled ? theme.colors.textPrimary : theme.colors.white};
@@ -80,7 +89,9 @@ const LogoText = styled.h5`
 `;
 
 // Mobile menu button
-const MobileMenuButton = styled.button`
+const MobileMenuButton = styled("button", {
+  shouldForwardProp: prop => prop !== "isScrolled",
+})`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -94,24 +105,7 @@ const MobileMenuButton = styled.button`
   border-radius: ${({ theme }) => theme.layout.borderRadius.md};
   transition: all 0.2s ease;
 
-  @media (hover: hover) and (pointer: fine) {
-    &:hover {
-      background-color: ${({ isScrolled, theme }) =>
-        isScrolled ? theme.colors.surfaceHover : "rgba(255, 255, 255, 0.1)"};
-    }
-  }
-
-  &:active {
-    background-color: ${({ isScrolled, theme }) =>
-      isScrolled ? theme.colors.surfaceHover : "rgba(255, 255, 255, 0.1)"};
-  }
-
-  &:focus-visible {
-    outline: 2px solid ${({ theme }) => theme.colors.primary};
-    outline-offset: 2px;
-  }
-
-  @media (min-width: 768px) {
+  ${({ theme }) => theme.mediaQueries.md} {
     display: none;
   }
 `;
@@ -120,7 +114,7 @@ const MobileMenuButton = styled.button`
 const DesktopNavigation = styled.nav`
   display: none;
 
-  @media (min-width: 768px) {
+  ${({ theme }) => theme.mediaQueries.md} {
     display: flex;
     align-items: center;
     gap: 2rem;
@@ -128,14 +122,16 @@ const DesktopNavigation = styled.nav`
 `;
 
 // Mobile navigation overlay
-const MobileNavigation = styled.nav`
+const MobileNavigation = styled("nav", {
+  shouldForwardProp: prop => prop !== "isOpen",
+})`
   position: fixed;
   top: 4rem;
   left: 0;
   right: 0;
   background-color: ${({ theme }) => theme.colors.primary};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px ${({ theme }) => theme.colors.shadow};
   transform: ${({ isOpen }) =>
     isOpen ? "translateY(0)" : "translateY(-100%)"};
   opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
@@ -143,7 +139,7 @@ const MobileNavigation = styled.nav`
   transition: all 0.3s ease;
   padding: 1rem;
 
-  @media (min-width: 768px) {
+  ${({ theme }) => theme.mediaQueries.md} {
     display: none;
   }
 `;
@@ -156,7 +152,7 @@ const NavigationList = styled.ul`
   flex-direction: column;
   gap: 0.5rem;
 
-  @media (min-width: 768px) {
+  ${({ theme }) => theme.mediaQueries.md} {
     flex-direction: row;
     gap: 2rem;
   }
@@ -166,15 +162,21 @@ const NavigationItem = styled.li`
   margin: 0;
 `;
 
-const NavigationLink = styled(Link)`
+const NavigationLink = styled('div', {
+  shouldForwardProp: prop => prop !== "isScrolled" && prop !== "as",
+})`
   ${({ theme }) => theme.mixins.textP4}
   display: block;
   padding: 0.75rem 1rem;
-  color: ${({ isScrolled, theme }) =>
-    isScrolled ? theme.colors.textPrimary : theme.colors.white};
   text-decoration: none;
+  color: inherit;
   border-radius: ${({ theme }) => theme.layout.borderRadius.md};
   transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
 
   @media (hover: hover) and (pointer: fine) {
     &:hover {
@@ -187,7 +189,7 @@ const NavigationLink = styled(Link)`
 
   &:active {
     background-color: ${({ isScrolled, theme }) =>
-      isScrolled ? theme.colors.surfaceHover : "rgba(255, 255, 255, 0.1)"};
+      isScrolled ? theme.colors.surfaceHover : theme.colors.whiteShadowLight};
     color: ${({ isScrolled, theme }) =>
       isScrolled ? theme.colors.primary : theme.colors.white};
   }
@@ -199,19 +201,21 @@ const NavigationLink = styled(Link)`
 
   &[aria-current="page"] {
     background-color: ${({ isScrolled, theme }) =>
-      isScrolled ? theme.colors.primarySoft : "rgba(255, 255, 255, 0.2)"};
+      isScrolled ? theme.colors.primarySoft : theme.colors.whiteShadowLight};
     color: ${({ isScrolled, theme }) =>
       isScrolled ? theme.colors.primary : theme.colors.white};
     font-weight: 600;
   }
 
-  @media (min-width: 768px) {
+  ${({ theme }) => theme.mediaQueries.md} {
     padding: 0.5rem 1rem;
   }
 `;
 
 // Authentication buttons
-const AuthButton = styled.button`
+const AuthButton = styled("button", {
+  shouldForwardProp: prop => prop !== "isScrolled",
+})`
   ${({ theme }) => theme.mixins.textP4}
   display: flex;
   align-items: center;
@@ -228,7 +232,7 @@ const AuthButton = styled.button`
   @media (hover: hover) and (pointer: fine) {
     &:hover {
       background-color: ${({ isScrolled, theme }) =>
-        isScrolled ? theme.colors.surfaceHover : "rgba(255, 255, 255, 0.1)"};
+        isScrolled ? theme.colors.surfaceHover : theme.colors.whiteShadowLight};
       color: ${({ isScrolled, theme }) =>
         isScrolled ? theme.colors.primary : theme.colors.white};
     }
@@ -236,7 +240,7 @@ const AuthButton = styled.button`
 
   &:active {
     background-color: ${({ isScrolled, theme }) =>
-      isScrolled ? theme.colors.surfaceHover : "rgba(255, 255, 255, 0.1)"};
+      isScrolled ? theme.colors.surfaceHover : theme.colors.whiteShadowLight};
     color: ${({ isScrolled, theme }) =>
       isScrolled ? theme.colors.primary : theme.colors.white};
   }
@@ -246,7 +250,7 @@ const AuthButton = styled.button`
     outline-offset: 2px;
   }
 
-  @media (min-width: 768px) {
+  ${({ theme }) => theme.mediaQueries.md} {
     padding: 0.5rem 1rem;
   }
 `;
@@ -257,10 +261,10 @@ const SkipLink = styled.a`
   top: -40px;
   left: 6px;
   background: ${({ theme }) => theme.colors.primary};
-  color: white;
+  color: ${({ theme }) => theme.colors.white};
   padding: 8px;
   text-decoration: none;
-  border-radius: 4px;
+  border-radius: ${({ theme }) => theme.layout.borderRadius.xl};
   z-index: 1001;
 
   &:focus {
@@ -270,21 +274,10 @@ const SkipLink = styled.a`
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const { isScrolled } = useScrollContext();
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout } = useAuth();
-
-  // Scroll detection
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      setIsScrolled(scrollTop > 10);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const isActive = pathname => location.pathname === pathname;
 
@@ -324,12 +317,30 @@ const Header = () => {
     closeMobileMenu();
   };
 
+  // Handle navigation clicks (including hash navigation)
+  const handleNavigation = (href) => {
+    if (href.startsWith('#')) {
+      // Hash navigation - only scroll if we're on the home page
+      if (location.pathname === '/') {
+        const elementId = href.substring(1);
+        scrollToElement(elementId, 100); // 100px offset for header
+      } else {
+        // Navigate to home page with hash
+        navigate(`/${href}`);
+      }
+    } else {
+      // Regular navigation
+      navigate(href);
+    }
+    closeMobileMenu();
+  };
+
   // Navigation items (excluding auth items)
   const navigationItems = [
     { href: "/", label: "Home" },
-    { href: "/marketplace", label: "Marketplace" },
-    { href: "/about", label: "About" },
-    { href: "/contact", label: "Contact" },
+    { href: "/shop", label: "Shop" },
+    { href: "#about", label: "About" },
+    { href: "#contact", label: "Contact" },
   ];
 
   return (
@@ -340,7 +351,11 @@ const Header = () => {
         <HeaderWrapper>
           <HeaderContent isScrolled={isScrolled}>
             {/* Logo */}
-            <Logo to="/" isScrolled={isScrolled} aria-label="Unit 902 - Go to homepage">
+            <Logo
+              to="/"
+              isScrolled={isScrolled}
+              aria-label="Unit 902 - Go to homepage"
+            >
               <LogoText isScrolled={isScrolled}>Unit 902</LogoText>
             </Logo>
 
@@ -350,7 +365,9 @@ const Header = () => {
                 {navigationItems.map(item => (
                   <NavigationItem key={item.href}>
                     <NavigationLink
-                      to={item.href}
+                      as={item.href.startsWith('#') ? 'button' : Link}
+                      to={item.href.startsWith('#') ? undefined : item.href}
+                      onClick={() => handleNavigation(item.href)}
                       isScrolled={isScrolled}
                       aria-current={isActive(item.href) ? "page" : undefined}
                     >
@@ -416,9 +433,10 @@ const Header = () => {
             {navigationItems.map(item => (
               <NavigationItem key={item.href}>
                 <NavigationLink
-                  to={item.href}
+                  as={item.href.startsWith('#') ? 'button' : Link}
+                  to={item.href.startsWith('#') ? undefined : item.href}
+                  onClick={() => handleNavigation(item.href)}
                   isScrolled={isScrolled}
-                  onClick={closeMobileMenu}
                   aria-current={isActive(item.href) ? "page" : undefined}
                 >
                   {item.label}

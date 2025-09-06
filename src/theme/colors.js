@@ -2,6 +2,7 @@
 const colors = {
   // Core brand colors
   primary: "#0ea5e9", // Sky blue (CTA, links, buttons)
+  primaryLight: "#9cb3ca", // Sky blue (CTA, links, buttons)
   secondary: "#64748b", // Slate gray (supporting accents)
 
   // Backgrounds
@@ -34,6 +35,8 @@ const colors = {
   // Border / shadows
   border: "#e2e8f0",
   shadow: "rgba(0, 0, 0, 0.05)",
+  whiteShadowDark: "rgba(255, 255, 255, 0.8)",
+  whiteShadowLight: "rgba(255, 255, 255, 0.1)",
 };
 
 export default colors;
