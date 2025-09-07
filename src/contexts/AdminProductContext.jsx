@@ -1,6 +1,7 @@
 // src/contexts/AdminProductContext.jsx
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { productService } from "../services/productService";
+import { useProductOperations } from "../hooks/useProductOperations";
 
 const AdminProductContext = createContext();
 
@@ -14,22 +15,25 @@ export const useAdminProduct = () => {
 
 export const AdminProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [dataLoading, setDataLoading] = useState(true);
+  const [dataError, setDataError] = useState(null);
+  
+  // Use the product operations hook
+  const productOperations = useProductOperations();
 
   // Set up real-time listener on mount
   useEffect(() => {
     const unsubscribe = productService.listenToProducts((products, error) => {
       if (error) {
         console.error("Error listening to products:", error);
-        setError("Failed to load products");
-        setLoading(false);
+        setDataError("Failed to load products");
+        setDataLoading(false);
         return;
       }
       
       setProducts(products);
-      setLoading(false);
-      setError(null);
+      setDataLoading(false);
+      setDataError(null);
     });
 
     // Cleanup listener on unmount
@@ -42,53 +46,15 @@ export const AdminProductProvider = ({ children }) => {
 
   const loadProducts = async () => {
     try {
-      setLoading(true);
-      setError(null);
+      setDataLoading(true);
+      setDataError(null);
       const fetchedProducts = await productService.getProducts();
       setProducts(fetchedProducts);
     } catch (err) {
       console.error("Error loading products:", err);
-      setError("Failed to load products");
+      setDataError("Failed to load products");
     } finally {
-      setLoading(false);
-    }
-  };
-
-  const addProduct = async (productData) => {
-    try {
-      setError(null);
-      const newProduct = await productService.addProduct(productData);
-      // Don't update local state - real-time listener will handle it
-      return newProduct;
-    } catch (err) {
-      console.error("Error adding product:", err);
-      setError("Failed to add product");
-      throw err;
-    }
-  };
-
-  const updateProduct = async (productId, updates) => {
-    try {
-      setError(null);
-      const updatedProduct = await productService.updateProduct(productId, updates);
-      // Don't update local state - real-time listener will handle it
-      return updatedProduct;
-    } catch (err) {
-      console.error("Error updating product:", err);
-      setError("Failed to update product");
-      throw err;
-    }
-  };
-
-  const deleteProduct = async (productId) => {
-    try {
-      setError(null);
-      await productService.deleteProduct(productId);
-      // Don't update local state - real-time listener will handle it
-    } catch (err) {
-      console.error("Error deleting product:", err);
-      setError("Failed to delete product");
-      throw err;
+      setDataLoading(false);
     }
   };
 
@@ -103,15 +69,16 @@ export const AdminProductProvider = ({ children }) => {
   const value = {
     // State
     products,
-    loading,
-    error,
+    loading: dataLoading || productOperations.loading,
+    error: dataError || productOperations.error,
     stats,
     
     // Actions
     loadProducts,
-    addProduct,
-    updateProduct,
-    deleteProduct
+    addProduct: productOperations.addProduct,
+    updateProduct: productOperations.updateProduct,
+    deleteProduct: productOperations.deleteProduct,
+    clearError: productOperations.clearError
   };
 
   return (
