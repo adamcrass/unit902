@@ -1,14 +1,31 @@
-import { createContext, useContext, useState, useMemo } from "react";
-import mockProducts from "../data/mockProducts";
+import { createContext, useContext, useState, useMemo, useEffect } from "react";
+import { getDatabase, ref, onValue } from "firebase/database";
+import app from "../config/firebase";
 
 const ShopContext = createContext();
 
 export const ShopProvider = ({ children }) => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const db = getDatabase(app);
+    const productsRef = ref(db, 'products');
+    const unsubscribe = onValue(productsRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        // Convert object to array
+        setProducts(Object.values(data));
+      } else {
+        setProducts([]);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
   const filteredProducts = useMemo(() => {
-    return mockProducts.filter(product => {
+    return products.filter(product => {
       const matchesCategory =
         selectedCategory === "All" || product.category === selectedCategory;
       const matchesSearch = product.name
@@ -16,7 +33,7 @@ export const ShopProvider = ({ children }) => {
         .includes(searchTerm.toLowerCase());
       return matchesCategory && matchesSearch;
     });
-  }, [selectedCategory, searchTerm]);
+  }, [products, selectedCategory, searchTerm]);
 
   return (
     <ShopContext.Provider

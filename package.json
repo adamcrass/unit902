@@ -22,6 +22,8 @@
     "@chakra-ui/react": "^3.26.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
+    "@firebase/app": "^0.14.2",
+    "@firebase/database": "^1.1.0",
     "@fontsource/inter": "^5.2.6",
     "@fontsource/jetbrains-mono": "^5.2.6",
     "@fontsource/questrial": "^5.2.6",
