@@ -352,7 +352,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const [isGoogleLoading] = useState(false);
 
   const validateForm = () => {
     const newErrors = {};
@@ -421,8 +421,8 @@ const Login = () => {
         }
       } else {
         // Success - redirect to profile page
-        console.log('Login successful:', user);
-        navigate('/profile');
+        console.log("Login successful:", user);
+        navigate("/profile");
       }
     } catch (error) {
       console.error("Login error:", error);
@@ -463,12 +463,12 @@ const Login = () => {
   };
 
   const handleBackToHome = () => {
-    navigate('/');
+    navigate("/");
   };
 
-  const handleGoogleSignIn = (user) => {
-    console.log('Google sign-in successful:', user);
-    navigate('/profile');
+  const handleGoogleSignIn = user => {
+    console.log("Google sign-in successful:", user);
+    navigate("/profile");
   };
 
   const handleGoogleSignInError = error => {

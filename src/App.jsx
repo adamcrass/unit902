@@ -1,8 +1,10 @@
 import { ChakraProvider } from "@chakra-ui/react";
+import { ShopProvider } from "./contexts/ShopContext";
 import { ThemeProvider } from "@emotion/react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ScrollProvider } from "./contexts/ScrollContext";
+import { NavigationProvider } from "./contexts/NavigationContext";
 
 import { system, emotionTheme } from "./theme";
 import Home from "./pages/Home";
@@ -18,35 +20,39 @@ const App = () => {
       <ScrollProvider>
         <ChakraProvider value={system}>
           <ThemeProvider theme={emotionTheme}>
-            <Router>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route
-                  path="/login"
-                  element={
-                    <PublicRoute>
-                      <Login />
-                    </PublicRoute>
-                  }
-                />
-                <Route
-                  path="/profile"
-                  element={
-                    <ProtectedRoute>
-                      <Profile />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/shop"
-                  element={
-                    <ProtectedRoute>
-                      <Shop />
-                    </ProtectedRoute>
-                  }
-                />
-              </Routes>
-            </Router>
+            <ShopProvider>
+              <Router>
+                <NavigationProvider>
+                  <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route
+                    path="/login"
+                    element={
+                      <PublicRoute>
+                        <Login />
+                      </PublicRoute>
+                    }
+                  />
+                  <Route
+                    path="/profile"
+                    element={
+                      <ProtectedRoute>
+                        <Profile />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/shop"
+                    element={
+                      <ProtectedRoute>
+                        <Shop />
+                      </ProtectedRoute>
+                    }
+                  />
+                  </Routes>
+                </NavigationProvider>
+              </Router>
+            </ShopProvider>
           </ThemeProvider>
         </ChakraProvider>
       </ScrollProvider>
