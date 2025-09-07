@@ -229,11 +229,6 @@ const AdminProductSection = () => {
                 <StatChange positive={true}>+12% this month</StatChange>
               </StatCard>
             </StatsGrid>
-            <AdminProductList 
-              products={products}
-              onUpdate={handleUpdateProduct}
-              onDelete={handleDeleteProduct}
-            />
           </div>
         );
       case 'add':
