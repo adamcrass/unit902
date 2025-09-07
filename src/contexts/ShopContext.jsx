@@ -15,8 +15,12 @@ export const ShopProvider = ({ children }) => {
     const unsubscribe = onValue(productsRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
-        // Convert object to array
-        setProducts(Object.values(data));
+        // Convert object to array and ensure each product has an id
+        const productsArray = Object.entries(data).map(([id, product]) => ({
+          ...product,
+          id: product.id || id // Use existing id or fallback to key
+        }));
+        setProducts(productsArray);
       } else {
         setProducts([]);
       }

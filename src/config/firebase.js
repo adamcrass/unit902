@@ -1,6 +1,7 @@
 // src/config/firebase.js
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
+import { getDatabase } from 'firebase/database';
 
 function getEnv() {
   try {
@@ -26,6 +27,9 @@ const app = initializeApp(firebaseConfig);
 
 // Initialize Firebase Authentication and get a reference to the service
 export const auth = getAuth(app);
+
+// Initialize Realtime Database and get a reference to the service
+export const db = getDatabase(app);
 
 // Initialize Google Auth Provider
 export const googleProvider = new GoogleAuthProvider();
