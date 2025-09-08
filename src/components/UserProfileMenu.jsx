@@ -1,9 +1,11 @@
 // src/components/UserProfileMenu.jsx
-import React, { useState, useRef, useEffect } from "react";
+import React from "react";
 import styled from "@emotion/styled";
 import { ChevronDown, User, Settings, LogOut, Shield } from "lucide-react";
+import useProfileMenu from "../hooks/useProfileMenu";
+import useUserDisplay from "../hooks/useUserDisplay";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import { useNavigation } from "../contexts/NavigationContext";
 
 const ProfileMenuContainer = styled.div`
   position: relative;
@@ -188,91 +190,21 @@ const Divider = styled.div`
 `;
 
 const UserProfileMenu = ({ isScrolled = false }) => {
-  const { user, logout } = useAuth();
-  const { handleNavigation, handleProfile } = useNavigation();
-  const [isOpen, setIsOpen] = useState(false);
-  const menuRef = useRef(null);
-  const triggerRef = useRef(null);
-
-  // Close menu when clicking outside
-  useEffect(() => {
-    const handleClickOutside = event => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-      return () =>
-        document.removeEventListener("mousedown", handleClickOutside);
-    }
-  }, [isOpen]);
-
-  // Close menu on escape key
-  useEffect(() => {
-    const handleEscape = event => {
-      if (event.key === "Escape" && isOpen) {
-        setIsOpen(false);
-        triggerRef.current?.focus();
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener("keydown", handleEscape);
-      return () => document.removeEventListener("keydown", handleEscape);
-    }
-  }, [isOpen]);
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const handleMenuAction = action => {
-    setIsOpen(false);
-
-    // Small delay to allow menu animation to complete
-    setTimeout(() => {
-      switch (action) {
-        case "profile":
-          handleProfile();
-          break;
-        case "settings":
-          // TODO: Navigate to settings page
-          break;
-        case "admin":
-          handleNavigation("/admin");
-          break;
-        case "logout":
-          logout();
-          break;
-        default:
-          break;
-      }
-    }, 100);
-  };
-
-  const getInitials = name => {
-    if (!name) return "U";
-    return name
-      .split(" ")
-      .map(part => part.charAt(0))
-      .join("")
-      .toUpperCase()
-      .slice(0, 2);
-  };
-
-  const getUserDisplayName = () => {
-    return user?.displayName || user?.email?.split("@")[0] || "User";
-  };
-
-  const getUserRole = () => {
-    return user?.role || "Member";
-  };
+  const { user, isOpen, menuRef, triggerRef, toggleMenu } = useProfileMenu();
+  const { displayName, userRole, initials, isAdmin } = useUserDisplay(user);
+  const navigate = useNavigate();
+  const { logout } = useAuth();
 
   if (!user) {
     return null;
   }
+
+  const handleLogOut = async () => {
+    const { error } = await logout();
+    if (!error) {
+      navigate("/");
+    }
+  };
 
   return (
     <ProfileMenuContainer ref={menuRef}>
@@ -288,13 +220,13 @@ const UserProfileMenu = ({ isScrolled = false }) => {
           {user.photoURL ? (
             <AvatarImage src={user.photoURL} alt="Profile" />
           ) : (
-            getInitials(getUserDisplayName())
+            initials
           )}
         </Avatar>
 
         <UserInfo>
-          <UserName isScrolled={isScrolled}>{getUserDisplayName()}</UserName>
-          <UserRole isScrolled={isScrolled}>{getUserRole()}</UserRole>
+          <UserName isScrolled={isScrolled}>{displayName}</UserName>
+          <UserRole isScrolled={isScrolled}>{userRole}</UserRole>
         </UserInfo>
 
         <ChevronIcon isOpen={isOpen} isScrolled={isScrolled} />
@@ -302,18 +234,18 @@ const UserProfileMenu = ({ isScrolled = false }) => {
 
       <DropdownMenu isOpen={isOpen}>
         <MenuSection>
-          <MenuItem onClick={() => handleMenuAction("profile")}>
+          <MenuItem onClick={() => navigate("/profile")}>
             <User />
             Profile
           </MenuItem>
 
-          <MenuItem onClick={() => handleMenuAction("settings")}>
+          <MenuItem onClick={() => navigate("/settings")}>
             <Settings />
             Settings
           </MenuItem>
 
-          {(user.role === "admin" || user.role === "super_admin") && (
-            <MenuItem onClick={() => handleMenuAction("admin")}>
+          {isAdmin && (
+            <MenuItem onClick={() => navigate("/admin")}>
               <Shield />
               Admin Panel
             </MenuItem>
@@ -323,10 +255,7 @@ const UserProfileMenu = ({ isScrolled = false }) => {
         <Divider />
 
         <MenuSection>
-          <MenuItem
-            className="danger"
-            onClick={() => handleMenuAction("logout")}
-          >
+          <MenuItem className="danger" onClick={() => handleLogOut()}>
             <LogOut />
             Sign Out
           </MenuItem>
