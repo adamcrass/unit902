@@ -30,6 +30,40 @@ const SectionDescription = styled.p`
   margin: 0;
 `;
 
+const LoadingContainer = styled.div`
+  padding: 2rem;
+  text-align: center;
+`;
+
+const ErrorContainer = styled.div`
+  padding: 2rem;
+  text-align: center;
+  color: ${({ theme }) => theme.colors.error};
+`;
+
+const ErrorMessage = styled.p`
+  margin: 0 0 1rem 0;
+`;
+
+const RetryButton = styled.button`
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.white};
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  
+  &:hover {
+    background: ${({ theme }) => theme.colors.primaryHover};
+  }
+`;
+
+const OverviewContainer = styled.div`
+  /* Container for overview content */
+`;
+
 
 
 const AdminProductSection = () => {
@@ -43,17 +77,17 @@ const AdminProductSection = () => {
 
   const renderTabContent = (activeTab) => {
     if (loading) {
-      return <div style={{ padding: '2rem', textAlign: 'center' }}>Loading products...</div>;
+      return <LoadingContainer>Loading products...</LoadingContainer>;
     }
 
     if (error) {
       return (
-        <div style={{ padding: '2rem', textAlign: 'center', color: '#ef4444' }}>
-          <p>Error: {error}</p>
-          <button onClick={() => window.location.reload()} style={{ marginTop: '1rem', padding: '0.5rem 1rem' }}>
+        <ErrorContainer>
+          <ErrorMessage>Error: {error}</ErrorMessage>
+          <RetryButton onClick={() => window.location.reload()}>
             Retry
-          </button>
-        </div>
+          </RetryButton>
+        </ErrorContainer>
       );
     }
 
@@ -62,9 +96,9 @@ const AdminProductSection = () => {
         const statsData = getProductStatsConfig(stats);
         
         return (
-          <div>
+          <OverviewContainer>
             <AdminStatsGrid stats={statsData} />
-          </div>
+          </OverviewContainer>
         );
       }
       case 'add':

@@ -156,9 +156,6 @@ const MobileNavItem = styled.button`
   transition: all 0.2s ease;
   border-radius: 8px;
   margin-bottom: 0.5rem;
-  /* border: 2px solid
-    ${({ active, theme }) => (active ? theme.colors.primary : "transparent")};
-     */
 
   &:hover {
     background: ${({ theme }) => theme.colors.surfaceHover};
