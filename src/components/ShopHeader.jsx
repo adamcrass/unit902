@@ -1,8 +1,18 @@
+import React from "react";
 import styled from "@emotion/styled";
+import UserProfileMenu from "./UserProfileMenu";
 
 const Header = styled.header`
   text-align: center;
   margin-bottom: 3rem;
+  position: relative;
+`;
+
+const ProfileMenuWrapper = styled.div`
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
 `;
 
 const Title = styled.h1`
@@ -21,6 +31,9 @@ const Subtitle = styled.p`
 
 const ShopHeader = () => (
   <Header>
+    <ProfileMenuWrapper>
+      <UserProfileMenu isScrolled={true} />
+    </ProfileMenuWrapper>
     <Title>Marketplace</Title>
     <Subtitle>Discover amazing products at great prices</Subtitle>
   </Header>

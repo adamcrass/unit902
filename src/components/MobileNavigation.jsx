@@ -125,8 +125,6 @@ const MobileNavigation = () => {
     user,
     isActive,
     handleNavigation,
-    handleProfile,
-    handleLogout,
     handleLogin,
     isMobileMenuOpen,
     handleOverlayClick,
@@ -155,22 +153,7 @@ const MobileNavigation = () => {
         ))}
 
         {/* Mobile Authentication Items */}
-        {user ? (
-          <>
-            <NavigationItem>
-              <AuthButton isScrolled={isScrolled} onClick={handleProfile}>
-                <User size={16} />
-                Profile
-              </AuthButton>
-            </NavigationItem>
-            <NavigationItem>
-              <AuthButton isScrolled={isScrolled} onClick={handleLogout}>
-                <LogOut size={16} />
-                Logout
-              </AuthButton>
-            </NavigationItem>
-          </>
-        ) : (
+        {!user && (
           <NavigationItem>
             <AuthButton isScrolled={isScrolled} onClick={handleLogin}>
               Login

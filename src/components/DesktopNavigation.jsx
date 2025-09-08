@@ -119,8 +119,6 @@ const DesktopNavigation = () => {
     user,
     isActive,
     handleNavigation,
-    handleProfile,
-    handleLogout,
     handleLogin,
   } = useNavigation();
   return (
@@ -141,23 +139,7 @@ const DesktopNavigation = () => {
         ))}
 
         {/* Authentication Items */}
-        {/* TODO: move to profile menu */}
-        {user ? (
-          <>
-            <NavigationItem>
-              <AuthButton isScrolled={isScrolled} onClick={handleProfile}>
-                <User size={16} />
-                Profile
-              </AuthButton>
-            </NavigationItem>
-            <NavigationItem>
-              <AuthButton isScrolled={isScrolled} onClick={handleLogout}>
-                <LogOut size={16} />
-                Logout
-              </AuthButton>
-            </NavigationItem>
-          </>
-        ) : (
+        {!user && (
           <NavigationItem>
             <AuthButton isScrolled={isScrolled} onClick={handleLogin}>
               Login

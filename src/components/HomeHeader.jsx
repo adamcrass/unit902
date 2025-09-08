@@ -1,9 +1,11 @@
 // src/components/HomeHeader.jsx
+import React from "react";
 import styled from "@emotion/styled";
 import { useScrollContext } from "../contexts/ScrollContext";
 import DesktopNavigation from "./DesktopNavigation";
 import MobileNavigation from "./MobileNavigation";
 import MobileMenuButton from "./MobileMenuButton";
+import UserProfileMenu from "./UserProfileMenu";
 
 const HeaderContainer = styled.header`
   position: sticky;
@@ -89,6 +91,8 @@ const HomeHeader = () => {
             </Logo>
             {/* Desktop Navigation */}
             <DesktopNavigation />
+            {/* User Profile Menu */}
+            <UserProfileMenu isScrolled={isScrolled} />
             {/* Mobile Menu Button */}
             <MobileMenuButton />
           </HeaderContent>
