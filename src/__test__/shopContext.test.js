@@ -1,135 +1,94 @@
-// src/__test__/ShopContext.test.jsx
+// src/__test__/shopContext.test.js
 import React from "react";
-import { render, act } from "@testing-library/react";
+import { renderHook, act } from "@testing-library/react";
 
-// ---- Mock product data BEFORE importing the context under test ----
-// This path should resolve to src/data/mockProducts from this test file.
-jest.mock("../data/mockProducts", () => ({
-  __esModule: true,
-  default: [
-    { id: 1, name: "Blue Shirt", category: "Shirts" },
-    { id: 2, name: "Pro Blue Shirt", category: "Shirts" },
-    { id: 3, name: "Red Hat", category: "Hats" },
-    { id: 4, name: "Blue Cap", category: "Hats" },
-    { id: 5, name: "Running Shoes", category: "Shoes" },
-  ],
-}));
+// --- Mocks (defined BEFORE imports) ---
+// 1) Mock your Vite-style config module to avoid `import.meta.env`
+jest.mock(
+  "../config/firebase",
+  () => ({
+    __esModule: true,
+    default: {}, // pretend Firebase app instance
+  }),
+  { virtual: true }
+);
 
-// ⬇️ update this import if your folder is "context" (singular)
-import { ShopProvider, useShop } from "../contexts/ShopContext";
-
-// helper that captures the context value for assertions
-let ctxRef;
-const Capture = () => {
-  ctxRef = useShop();
-  return null;
+// 2) Mock Realtime Database APIs
+const mockUnsub = jest.fn();
+const sampleData = {
+  p1: { name: "Alpha Shoe", category: "Shoes" },
+  p2: { name: "Beta Bag", category: "Bags" },
+  p3: { name: "Gamma Shoe", category: "Shoes" },
 };
 
-const names = () => (ctxRef?.filteredProducts || []).map(p => p.name).sort();
+jest.mock("firebase/database", () => {
+  const getDatabase = jest.fn(() => ({}));
+  const ref = jest.fn((_db, path) => ({ path }));
+  const onValue = jest.fn((_ref, cb) => {
+    // Immediately deliver a snapshot; return unsubscribe fn
+    cb({ val: () => sampleData });
+    return mockUnsub;
+  });
+  return { getDatabase, ref, onValue };
+});
+
+// Now import the SUT
+import app from "../config/firebase";
+import { getDatabase, ref, onValue } from "firebase/database";
+import { ShopProvider, useShop } from "../contexts/ShopContext";
 
 describe("ShopContext", () => {
   beforeEach(() => {
-    ctxRef = undefined;
+    jest.clearAllMocks();
   });
 
-  test("useShop returns undefined when used outside provider", () => {
-    render(<Capture />);
-    expect(ctxRef).toBeUndefined();
+  const wrapper = ({ children }) => <ShopProvider>{children}</ShopProvider>;
+
+  test("loads products on mount and exposes filteredProducts", () => {
+    const { result } = renderHook(() => useShop(), { wrapper });
+
+    // All products visible by default (category "All", empty search)
+    expect(result.current.filteredProducts).toHaveLength(3);
+
+    // getDatabase called with the mocked app; ref targets "products"; onValue subscribed
+    expect(getDatabase).toHaveBeenCalledWith(app);
+    expect(ref).toHaveBeenCalledWith(expect.any(Object), "products");
+    expect(onValue).toHaveBeenCalled();
   });
 
-  test("defaults: category 'All', empty search, all products returned", () => {
-    render(
-      <ShopProvider>
-        <Capture />
-      </ShopProvider>
+  test("filters by category", () => {
+    const { result } = renderHook(() => useShop(), { wrapper });
+
+    act(() => {
+      result.current.setSelectedCategory("Shoes");
+    });
+    // Only the two shoe items should remain
+    expect(result.current.filteredProducts.map(p => p.name)).toEqual(
+      expect.arrayContaining(["Alpha Shoe", "Gamma Shoe"])
     );
+    expect(result.current.filteredProducts).toHaveLength(2);
+  });
 
-    expect(ctxRef.selectedCategory).toBe("All");
-    expect(ctxRef.searchTerm).toBe("");
-    expect(names()).toEqual([
-      "Blue Cap",
-      "Blue Shirt",
-      "Pro Blue Shirt",
-      "Red Hat",
-      "Running Shoes",
+  test("filters by search term (case-insensitive)", () => {
+    const { result } = renderHook(() => useShop(), { wrapper });
+
+    act(() => {
+      result.current.setSearchTerm("beta");
+    });
+    expect(result.current.filteredProducts).toEqual([
+      { id: "p2", name: "Beta Bag", category: "Bags" },
     ]);
+
+    // Combine with category filter -> zero results
+    act(() => {
+      result.current.setSelectedCategory("Shoes");
+    });
+    expect(result.current.filteredProducts).toEqual([]);
   });
 
-  test("filter by category only", () => {
-    render(
-      <ShopProvider>
-        <Capture />
-      </ShopProvider>
-    );
-
-    act(() => {
-      ctxRef.setSelectedCategory("Hats");
-    });
-    expect(ctxRef.selectedCategory).toBe("Hats");
-    expect(names()).toEqual(["Blue Cap", "Red Hat"]);
-
-    act(() => {
-      ctxRef.setSelectedCategory("Shirts");
-    });
-    expect(names()).toEqual(["Blue Shirt", "Pro Blue Shirt"]);
-  });
-
-  test("filter by search only (case-insensitive, substring match)", () => {
-    render(
-      <ShopProvider>
-        <Capture />
-      </ShopProvider>
-    );
-
-    act(() => {
-      ctxRef.setSearchTerm("blue");
-    });
-    expect(ctxRef.searchTerm).toBe("blue");
-    // Blue Shirt, Pro Blue Shirt, Blue Cap
-    expect(names()).toEqual(["Blue Cap", "Blue Shirt", "Pro Blue Shirt"]);
-
-    act(() => {
-      ctxRef.setSearchTerm("pro"); // matches "Pro Blue Shirt"
-    });
-    expect(names()).toEqual(["Pro Blue Shirt"]);
-
-    act(() => {
-      ctxRef.setSearchTerm("zzz"); // no matches
-    });
-    expect(names()).toEqual([]);
-  });
-
-  test("combined filters: category AND search", () => {
-    render(
-      <ShopProvider>
-        <Capture />
-      </ShopProvider>
-    );
-
-    act(() => {
-      ctxRef.setSelectedCategory("Shirts");
-      ctxRef.setSearchTerm("blue");
-    });
-    // both Shirt items match because both include "Blue"
-    expect(names()).toEqual(["Blue Shirt", "Pro Blue Shirt"]);
-
-    act(() => {
-      ctxRef.setSearchTerm("pro"); // narrows to only the "Pro Blue Shirt"
-    });
-    expect(names()).toEqual(["Pro Blue Shirt"]);
-  });
-
-  test("unknown category yields empty list (with empty search)", () => {
-    render(
-      <ShopProvider>
-        <Capture />
-      </ShopProvider>
-    );
-
-    act(() => {
-      ctxRef.setSelectedCategory("Bags");
-      ctxRef.setSearchTerm("");
-    });
-    expect(names()).toEqual([]);
+  test("unsubscribes from database on unmount", () => {
+    const { unmount } = renderHook(() => useShop(), { wrapper });
+    unmount();
+    expect(mockUnsub).toHaveBeenCalledTimes(1);
   });
 });

@@ -2070,7 +2070,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@firebase/app@npm:0.14.2":
+"@firebase/app@npm:0.14.2, @firebase/app@npm:^0.14.2":
   version: 0.14.2
   resolution: "@firebase/app@npm:0.14.2"
   dependencies:
@@ -2182,7 +2182,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@firebase/database@npm:1.1.0":
+"@firebase/database@npm:1.1.0, @firebase/database@npm:^1.1.0":
   version: 1.1.0
   resolution: "@firebase/database@npm:1.1.0"
   dependencies:
@@ -9679,6 +9679,8 @@ __metadata:
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.1"
     "@eslint/js": "npm:^9.34.0"
+    "@firebase/app": "npm:^0.14.2"
+    "@firebase/database": "npm:^1.1.0"
     "@fontsource/inter": "npm:^5.2.6"
     "@fontsource/jetbrains-mono": "npm:^5.2.6"
     "@fontsource/questrial": "npm:^5.2.6"

@@ -34,6 +34,8 @@ const RAW_RUNTIME_STATE =
           ["@emotion/react", "virtual:a4bdbac11907bc8b9408f7789b9bf28002116a5f8476905e5d752399d8618069115ef6d2ee54c6a33e66f31d0ea2ee66353c36d667e6c5f1724663685b02ba0d#npm:11.14.0"],\
           ["@emotion/styled", "virtual:a4bdbac11907bc8b9408f7789b9bf28002116a5f8476905e5d752399d8618069115ef6d2ee54c6a33e66f31d0ea2ee66353c36d667e6c5f1724663685b02ba0d#npm:11.14.1"],\
           ["@eslint/js", "npm:9.34.0"],\
+          ["@firebase/app", "npm:0.14.2"],\
+          ["@firebase/database", "npm:1.1.0"],\
           ["@fontsource/inter", "npm:5.2.6"],\
           ["@fontsource/jetbrains-mono", "npm:5.2.6"],\
           ["@fontsource/questrial", "npm:5.2.6"],\
@@ -12953,6 +12955,8 @@ const RAW_RUNTIME_STATE =
           ["@emotion/react", "virtual:a4bdbac11907bc8b9408f7789b9bf28002116a5f8476905e5d752399d8618069115ef6d2ee54c6a33e66f31d0ea2ee66353c36d667e6c5f1724663685b02ba0d#npm:11.14.0"],\
           ["@emotion/styled", "virtual:a4bdbac11907bc8b9408f7789b9bf28002116a5f8476905e5d752399d8618069115ef6d2ee54c6a33e66f31d0ea2ee66353c36d667e6c5f1724663685b02ba0d#npm:11.14.1"],\
           ["@eslint/js", "npm:9.34.0"],\
+          ["@firebase/app", "npm:0.14.2"],\
+          ["@firebase/database", "npm:1.1.0"],\
           ["@fontsource/inter", "npm:5.2.6"],\
           ["@fontsource/jetbrains-mono", "npm:5.2.6"],\
           ["@fontsource/questrial", "npm:5.2.6"],\

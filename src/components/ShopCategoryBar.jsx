@@ -1,6 +1,8 @@
 // src/components/ShopCategoryBar.jsx
 import styled from "@emotion/styled";
-import categories from "../data/mockCategories";
+import { useEffect, useState } from "react";
+import { getDatabase, ref, onValue } from "firebase/database";
+import app from "../config/firebase";
 
 const CategoryFilters = styled.div`
   display: flex;
@@ -11,32 +13,40 @@ const CategoryFilters = styled.div`
 const FilterButton = styled.button`
   padding: 0.75rem 1.5rem;
   border: 2px solid rgba(255, 255, 255, 0.3);
-  background: ${props =>
-    props.active ? "rgba(255, 255, 255, 0.2)" : "transparent"};
-  color: white;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 500;
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-  }
 `;
 
-const ShopCategoryBar = ({ selectedCategory, setSelectedCategory }) => (
-  <CategoryFilters>
-    {categories.map(category => (
-      <FilterButton
-        key={category}
-        active={selectedCategory === category}
-        onClick={() => setSelectedCategory(category)}
-      >
-        {category}
-      </FilterButton>
-    ))}
-  </CategoryFilters>
-);
+export default function ShopCategoryBar({ selectedCategory, setSelectedCategory }) {
+  const [categories, setCategories] = useState(["All"]);
+  useEffect(() => {
+    const db = getDatabase(app);
+    const categoriesRef = ref(db, 'categories');
+    const unsubscribe = onValue(categoriesRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data && Array.isArray(data)) {
+        setCategories(data);
+      } else if (data && typeof data === 'object') {
+        setCategories(Object.values(data));
+      } else {
+        setCategories(["All"]);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
-export default ShopCategoryBar;
+  return (
+    <CategoryFilters>
+      {categories.map((cat) => (
+        <FilterButton
+          key={cat}
+          onClick={() => setSelectedCategory(cat)}
+          style={{
+            background: selectedCategory === cat ? "#fff" : "transparent",
+            color: selectedCategory === cat ? "#222" : "#fff",
+          }}
+        >
+          {cat}
+        </FilterButton>
+      ))}
+    </CategoryFilters>
+  );
+}
