@@ -1,6 +1,8 @@
 // src/components/AdminStatsGrid.jsx
-import React from "react";
+import React, { useMemo } from "react";
 import styled from "@emotion/styled";
+import { useAdminProduct } from "../contexts/AdminProductContext";
+import { getProductStatsConfig } from "../config/admin";
 
 const StatsGrid = styled.div`
   display: grid;
@@ -18,7 +20,7 @@ const StatCard = styled.div`
 `;
 
 const StatLabel = styled.div`
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: ${({ theme }) => theme.colors.textSecondary};
   margin-bottom: 0.5rem;
 `;
@@ -30,22 +32,25 @@ const StatValue = styled.div`
 `;
 
 const StatChange = styled.div`
-  font-size: 0.875rem;
-  color: ${({ positive, theme }) => positive ? theme.colors.success : theme.colors.danger};
+  font-size: 1rem;
+  color: ${({ positive, theme }) =>
+    positive ? theme.colors.success : theme.colors.danger};
   margin-top: 0.25rem;
 `;
 
-const AdminStatsGrid = ({ stats }) => {
+const AdminStatsGrid = () => {
+  const { stats } = useAdminProduct();
+  const statsData = useMemo(() => getProductStatsConfig(stats), [stats]);
+
   return (
     <StatsGrid>
-      {stats.map((stat, index) => (
+      {statsData.map((stat, index) => (
         <StatCard key={stat.id || index}>
           <StatLabel>{stat.label}</StatLabel>
           <StatValue>{stat.value}</StatValue>
+          {/* TODO: lets look into this */}
           {stat.change && (
-            <StatChange positive={stat.positive}>
-              {stat.change}
-            </StatChange>
+            <StatChange positive={stat.positive}>{stat.change}</StatChange>
           )}
         </StatCard>
       ))}

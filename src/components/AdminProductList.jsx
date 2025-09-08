@@ -1,6 +1,7 @@
 // src/components/admin/ProductList.jsx
 import React, { useState } from "react";
 import styled from "@emotion/styled";
+import { useAdminProduct } from "../contexts/AdminProductContext";
 
 const ListContainer = styled.div`
   background: ${({ theme }) => theme.colors.surface};
@@ -230,7 +231,8 @@ const EmptyStateText = styled.p`
   font-size: 0.95rem;
 `;
 
-const ProductList = ({ products = [], onDelete, showActions = false }) => {
+const ProductList = ({ showActions = false }) => {
+  const { products, deleteProduct } = useAdminProduct();
   const [searchTerm, setSearchTerm] = useState('');
   const [filterCategory, setFilterCategory] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
@@ -254,12 +256,13 @@ const ProductList = ({ products = [], onDelete, showActions = false }) => {
 
   const handleEdit = (product) => {
     // TODO: Implement edit functionality - open modal or navigate to edit form
+    // For now, we could use updateProduct when edit modal is implemented
     alert(`Edit functionality for "${product.name}" coming soon!`);
   };
 
   const handleDelete = (productId) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
-      onDelete(productId);
+      deleteProduct(productId);
     }
   };
 

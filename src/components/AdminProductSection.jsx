@@ -6,7 +6,6 @@ import AdminProductList from "./AdminProductList";
 import AdminTabContainer from "./AdminTabContainer";
 import AdminStatsGrid from "./AdminStatsGrid";
 import { useAdminProduct } from "../contexts/AdminProductContext";
-import { getProductStatsConfig } from "../config/admin";
 
 const SectionContainer = styled.div`
   max-width: 1200px;
@@ -54,7 +53,7 @@ const RetryButton = styled.button`
   border-radius: 4px;
   cursor: pointer;
   transition: background 0.2s ease;
-  
+
   &:hover {
     background: ${({ theme }) => theme.colors.primaryHover};
   }
@@ -64,18 +63,16 @@ const OverviewContainer = styled.div`
   /* Container for overview content */
 `;
 
-
-
 const AdminProductSection = () => {
-  const { products, loading, error, stats, addProduct, updateProduct, deleteProduct } = useAdminProduct();
+  const { loading, error, addProduct } = useAdminProduct();
 
   const tabs = [
-    { id: 'overview', label: 'Overview' },
-    { id: 'add', label: 'Add Product' },
-    { id: 'manage', label: 'Manage Products' }
+    { id: "overview", label: "Overview" },
+    { id: "add", label: "Add Product" },
+    { id: "manage", label: "Manage Products" },
   ];
 
-  const renderTabContent = (activeTab) => {
+  const renderTabContent = activeTab => {
     if (loading) {
       return <LoadingContainer>Loading products...</LoadingContainer>;
     }
@@ -92,26 +89,17 @@ const AdminProductSection = () => {
     }
 
     switch (activeTab) {
-      case 'overview': {
-        const statsData = getProductStatsConfig(stats);
-        
+      case "overview": {
         return (
           <OverviewContainer>
-            <AdminStatsGrid stats={statsData} />
+            <AdminStatsGrid />
           </OverviewContainer>
         );
       }
-      case 'add':
+      case "add":
         return <AdminProductForm onSubmit={addProduct} />;
-      case 'manage':
-        return (
-          <AdminProductList 
-            products={products}
-            onUpdate={updateProduct}
-            onDelete={deleteProduct}
-            showActions={true}
-          />
-        );
+      case "manage":
+        return <AdminProductList showActions={true} />;
       default:
         return null;
     }
@@ -126,10 +114,7 @@ const AdminProductSection = () => {
         </SectionDescription>
       </SectionHeader>
 
-      <AdminTabContainer 
-        tabs={tabs}
-        defaultTab="overview"
-      >
+      <AdminTabContainer tabs={tabs} defaultTab="overview">
         {renderTabContent}
       </AdminTabContainer>
     </SectionContainer>
