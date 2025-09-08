@@ -76,7 +76,7 @@ describe("ShopContext", () => {
       result.current.setSearchTerm("beta");
     });
     expect(result.current.filteredProducts).toEqual([
-      { name: "Beta Bag", category: "Bags" },
+      { id: "p2", name: "Beta Bag", category: "Bags" },
     ]);
 
     // Combine with category filter -> zero results
