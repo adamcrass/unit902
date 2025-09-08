@@ -1,10 +1,11 @@
-// src/components/MobileNavigation.jsx
+// src/components/ShopMobileNavigation.jsx
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
-import { LogOut, User } from "lucide-react";
-import { headerNavigationItems } from "../config/navigation";
+import { LogOut } from "lucide-react";
+import { shopNavigationItems } from "../config/navigation";
 import { useNavigation } from "../contexts/NavigationContext";
-import { useScrollContext } from "../contexts/ScrollContext";
+import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 // Mobile navigation overlay
 const MobileNavigationContainer = styled.nav`
@@ -18,7 +19,7 @@ const MobileNavigationContainer = styled.nav`
   opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
   visibility: ${({ isOpen }) => (isOpen ? "visible" : "hidden")};
   transition: all 0.3s ease;
-  z-index: 999;
+  z-index: ${({ theme }) => theme.zIndices.navbar};
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -44,9 +45,7 @@ const NavigationItem = styled.li`
   margin: 0;
 `;
 
-const NavigationLink = styled("div", {
-  shouldForwardProp: prop => prop !== "isScrolled" && prop !== "as",
-})`
+const NavigationLink = styled(Link)`
   ${({ theme }) => theme.mixins.textH4}
   display: block;
   padding: 1rem;
@@ -55,8 +54,6 @@ const NavigationLink = styled("div", {
   border-radius: ${({ theme }) => theme.layout.borderRadius.md};
   transition: all 0.2s ease;
   cursor: pointer;
-  border: none;
-  background: none;
   text-align: right;
   font-weight: 400;
 
@@ -84,8 +81,8 @@ const NavigationLink = styled("div", {
   }
 `;
 
-// Authentication buttons
-const AuthButton = styled.button`
+// Logout button
+const LogoutButton = styled.button`
   ${({ theme }) => theme.mixins.textH4}
   display: flex;
   align-items: center;
@@ -119,32 +116,33 @@ const AuthButton = styled.button`
   }
 `;
 
-const MobileNavigation = () => {
-  const { isScrolled } = useScrollContext();
-  const {
-    user,
-    isActive,
-    handleNavigation,
-    handleLogin,
-    isMobileMenuOpen,
-    handleOverlayClick,
-  } = useNavigation();
+const ShopMobileNavigation = () => {
+  const { isActive, handleNavigation, isMobileMenuOpen, handleOverlayClick } =
+    useNavigation();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    const { error } = await logout();
+    if (!error) {
+      navigate("/");
+    }
+  };
+
   return (
     <MobileNavigationContainer
-      id="mobile-navigation"
+      id="shop-mobile-navigation"
       isOpen={isMobileMenuOpen}
       role="navigation"
-      aria-label="Mobile navigation"
+      aria-label="Shop mobile navigation"
       onClick={handleOverlayClick}
     >
       <NavigationList>
-        {headerNavigationItems.map(item => (
+        {shopNavigationItems.map(item => (
           <NavigationItem key={item.href}>
             <NavigationLink
-              as={item.href.startsWith("#") ? "button" : Link}
-              to={item.href.startsWith("#") ? undefined : item.href}
+              to={item.href}
               onClick={() => handleNavigation(item.href)}
-              isScrolled={isScrolled}
               aria-current={isActive(item.href) ? "page" : undefined}
             >
               {item.label}
@@ -152,12 +150,13 @@ const MobileNavigation = () => {
           </NavigationItem>
         ))}
 
-        {/* Mobile Authentication Items */}
-        {!user && (
+        {/* Mobile Logout Button - only show if user is logged in */}
+        {user && (
           <NavigationItem>
-            <AuthButton isScrolled={isScrolled} onClick={handleLogin}>
-              Login
-            </AuthButton>
+            <LogoutButton onClick={handleLogout}>
+              <LogOut size={20} />
+              Sign Out
+            </LogoutButton>
           </NavigationItem>
         )}
       </NavigationList>
@@ -165,4 +164,4 @@ const MobileNavigation = () => {
   );
 };
 
-export default MobileNavigation;
+export default ShopMobileNavigation;

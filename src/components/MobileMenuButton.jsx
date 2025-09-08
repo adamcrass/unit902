@@ -13,7 +13,7 @@ const MobileMenuButtonContainer = styled.button`
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;
-  z-index: 1000;
+  z-index: 1001;
   padding: 0.5rem;
 
   &:active {

@@ -37,6 +37,18 @@ const colors = {
   shadow: "rgba(0, 0, 0, 0.05)",
   whiteShadowDark: "rgba(255, 255, 255, 0.8)",
   whiteShadowLight: "rgba(255, 255, 255, 0.1)",
+
+  // Transparent overlays - consolidated to 3 meaningful variations
+  whiteOverlayLight: "rgba(255, 255, 255, 0.1)",   // 10% - subtle backgrounds
+  whiteOverlayMedium: "rgba(255, 255, 255, 0.2)",  // 20% - hover/active states
+  whiteOverlayStrong: "rgba(255, 255, 255, 0.8)",  // 80% - text on dark backgrounds
+  
+  // Focus and hover states
+  primaryFocus: "rgba(14, 165, 233, 0.25)", // primary with 40 hex = 25% opacity
+  dangerHover10: "rgba(239, 68, 68, 0.1)",
+  
+  // Dropdown shadows
+  dropdownShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
 };
 
 export default colors;

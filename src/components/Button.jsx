@@ -2,35 +2,72 @@
 import React from "react";
 import styled from "@emotion/styled";
 
+const getSizeStyles = size => {
+  const sizes = {
+    sm: {
+      padding: "8px 16px",
+      fontSize: "14px",
+      minHeight: "36px",
+      gap: "6px",
+      borderRadius: "6px",
+    },
+    md: {
+      padding: "12px 20px",
+      fontSize: "15px",
+      minHeight: "44px",
+      gap: "8px",
+      borderRadius: "8px",
+    },
+    lg: {
+      padding: "14px 24px",
+      fontSize: "16px",
+      minHeight: "48px",
+      gap: "10px",
+      borderRadius: "8px",
+    },
+  };
+
+  return sizes[size] || sizes.md;
+};
+
 const StyledButton = styled.button`
   width: 100%;
-  padding: 14px 24px;
+  ${({ size }) => {
+    const sizeStyles = getSizeStyles(size);
+    return `
+      padding: ${sizeStyles.padding};
+      font-size: ${sizeStyles.fontSize};
+      min-height: ${sizeStyles.minHeight};
+      gap: ${sizeStyles.gap};
+      border-radius: ${sizeStyles.borderRadius};
+    `;
+  }}
+
   background: ${({ theme, variant }) => {
     if (variant === "primary") return theme.colors.primary;
     if (variant === "ghost") return "transparent";
     return theme.colors.surface;
   }};
+
   color: ${({ theme, variant }) => {
     if (variant === "primary") return theme.colors.white;
     if (variant === "ghost") return theme.colors.white;
     return theme.colors.textPrimary;
   }};
+
   border: 1px solid
     ${({ theme, variant }) => {
       if (variant === "primary") return theme.colors.primary;
       if (variant === "ghost") return "none";
       return theme.colors.border;
     }};
-  border-radius: 8px;
-  font-size: 15px;
+
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  min-height: 48px;
 
   &:active {
     transform: translateY(0);
@@ -83,16 +120,21 @@ const StyledButton = styled.button`
     cursor: not-allowed;
   `}
 
-  @media (min-width: 480px) {
-    padding: 12px 24px;
-    font-size: 16px;
-    gap: 12px;
+  /* Responsive adjustments for mobile */
+  @media (max-width: 479px) {
+    ${({ size }) => {
+      if (size === "sm") return "padding: 6px 12px; font-size: 13px;";
+      if (size === "md") return "padding: 10px 16px; font-size: 14px;";
+      if (size === "lg") return "padding: 12px 20px; font-size: 15px;";
+      return "";
+    }}
   }
 `;
 
 const Button = ({
   children,
   variant = "default",
+  size = "md",
   isLoading,
   disabled,
   type = "button",
@@ -102,6 +144,7 @@ const Button = ({
     <StyledButton
       type={type}
       variant={variant}
+      size={size}
       disabled={disabled || isLoading}
       isLoading={isLoading}
       {...props}

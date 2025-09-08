@@ -2,11 +2,12 @@
 import styled from "@emotion/styled";
 import { ShopProvider, useShop } from "../contexts/ShopContext";
 import ShopHeader from "../components/ShopHeader";
+import ShopProductCard from "../components/ShopProductCard";
 
 // Styled Components
 const ShopContainer = styled.div`
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: ${({ theme }) => theme.colors.primary};
   padding: 2rem;
 `;
 
@@ -58,8 +59,6 @@ const ProductGrid = styled.div`
   margin: 0 auto;
 `;
 
-import ShopProductCard from "../components/ShopProductCard";
-
 const NoResults = styled.div`
   text-align: center;
   color: rgba(255, 255, 255, 0.8);
@@ -80,7 +79,6 @@ const Shop = () => {
 
   const handleAddToCart = product => {
     // Add your cart logic here
-    console.log("Added to cart:", product);
     alert(`${product.name} added to cart!`);
   };
 
