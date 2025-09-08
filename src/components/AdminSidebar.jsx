@@ -4,18 +4,18 @@ import styled from "@emotion/styled";
 import { useAdmin } from "../contexts/AdminContext";
 
 const Sidebar = styled.nav`
-  width: 280px;
-  background: ${({ theme }) => theme.colors.surface};
-  border-right: 1px solid ${({ theme }) => theme.colors.border};
-  padding: 2rem 0;
-  flex-shrink: 0;
-  min-height: calc(100vh - 80px); /* Adjust for header height */
-
-  @media (max-width: 768px) {
-    width: 100%;
-    border-right: none;
-    border-bottom: 1px solid ${({ theme }) => theme.colors.border};
-    padding: 1rem 0;
+  /* Mobile first approach */
+  display: none;
+  
+  /* Desktop styles */
+  @media (min-width: 769px) {
+    display: block;
+    width: 280px;
+    background: ${({ theme }) => theme.colors.surface};
+    border-right: 1px solid ${({ theme }) => theme.colors.border};
+    padding: 2rem 0;
+    flex-shrink: 0;
+    min-height: calc(100vh - 80px);
   }
 `;
 

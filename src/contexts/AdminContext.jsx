@@ -14,14 +14,26 @@ export const useAdmin = () => {
 
 export const AdminProvider = ({ children }) => {
   const [activeSection, setActiveSection] = useState(defaultActiveSection);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(prev => !prev);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
 
   const value = {
     // State
     sections: adminSections,
     activeSection,
+    isMobileMenuOpen,
     
     // Actions
-    setActiveSection
+    setActiveSection,
+    toggleMobileMenu,
+    closeMobileMenu
   };
 
   return (
