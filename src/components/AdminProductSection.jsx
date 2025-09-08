@@ -1,10 +1,12 @@
 // src/components/AdminProductSection.jsx
 import React from "react";
 import styled from "@emotion/styled";
+
 import AdminProductForm from "./AdminProductForm";
 import AdminProductList from "./AdminProductList";
 import AdminTabContainer from "./AdminTabContainer";
 import AdminStatsGrid from "./AdminStatsGrid";
+
 import { useAdminProduct } from "../contexts/AdminProductContext";
 
 const SectionContainer = styled.div`
@@ -17,7 +19,7 @@ const SectionHeader = styled.div`
 `;
 
 const SectionTitle = styled.h2`
-  font-size: 1.75rem;
+  font-size: 1.8rem;
   font-weight: 600;
   color: ${({ theme }) => theme.colors.textPrimary};
   margin: 0 0 0.5rem 0;
@@ -66,12 +68,6 @@ const OverviewContainer = styled.div`
 const AdminProductSection = () => {
   const { loading, error, addProduct } = useAdminProduct();
 
-  const tabs = [
-    { id: "overview", label: "Overview" },
-    { id: "add", label: "Add Product" },
-    { id: "manage", label: "Manage Products" },
-  ];
-
   const renderTabContent = activeTab => {
     if (loading) {
       return <LoadingContainer>Loading products...</LoadingContainer>;
@@ -114,7 +110,7 @@ const AdminProductSection = () => {
         </SectionDescription>
       </SectionHeader>
 
-      <AdminTabContainer tabs={tabs} defaultTab="overview">
+      <AdminTabContainer defaultTab="overview">
         {renderTabContent}
       </AdminTabContainer>
     </SectionContainer>

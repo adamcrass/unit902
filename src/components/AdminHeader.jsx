@@ -12,7 +12,7 @@ const Header = styled.header`
   align-items: center;
   justify-content: space-between;
 
-  @media (max-width: 768px) {
+  ${({ theme }) => theme.mediaQueries.md} {
     padding: 1rem;
   }
 `;
@@ -22,7 +22,7 @@ const HeaderContent = styled.div`
 `;
 
 const MobileMenuWrapper = styled.div`
-  @media (min-width: 769px) {
+  ${({ theme }) => theme.mediaQueries.md} {
     display: none;
   }
 `;
@@ -33,7 +33,7 @@ const Title = styled.h1`
   font-weight: 600;
   color: ${({ theme }) => theme.colors.textPrimary};
 
-  @media (max-width: 768px) {
+  ${({ theme }) => theme.mediaQueries.md} {
     font-size: 1.5rem;
   }
 `;

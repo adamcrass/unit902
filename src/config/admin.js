@@ -7,6 +7,12 @@ export const adminSections = [
   { id: "settings", label: "Settings", category: "System" },
 ];
 
+export const adminTabs = [
+  { id: "overview", label: "Overview" },
+  { id: "add", label: "Add Product" },
+  { id: "manage", label: "Manage Products" },
+];
+
 export const defaultActiveSection = "products";
 
 // Product stats configuration

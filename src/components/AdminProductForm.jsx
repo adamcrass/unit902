@@ -13,7 +13,7 @@ const Form = styled.form`
   border-radius: 12px;
   padding: 2rem;
   box-shadow: 0 4px 6px ${({ theme }) => theme.colors.shadow};
-  
+
   @media (max-width: 768px) {
     padding: 1rem;
     border-radius: 8px;
@@ -32,7 +32,7 @@ const FormGrid = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
   margin-bottom: 2rem;
-  
+
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     gap: 1rem;
@@ -67,20 +67,22 @@ const Label = styled.label`
 `;
 
 const Input = styled.input`
-  padding: 0.75rem;
+  padding: 1rem;
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 6px;
-  font-size: 0.95rem;
+  font-size: 1rem;
   background: ${({ theme }) => theme.colors.surface};
   color: ${({ theme }) => theme.colors.textPrimary};
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+
   &:focus {
     outline: none;
     border-color: ${({ theme }) => theme.colors.primary};
     box-shadow: 0 0 0 3px ${({ theme }) => theme.colors.primarySoft};
   }
-  
+
   &:disabled {
     background: ${({ theme }) => theme.colors.gray100};
     color: ${({ theme }) => theme.colors.textSecondary};
@@ -89,17 +91,19 @@ const Input = styled.input`
 `;
 
 const TextArea = styled.textarea`
-  padding: 0.75rem;
+  padding: 1rem;
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 6px;
-  font-size: 0.95rem;
+  font-size: 1rem;
   background: ${({ theme }) => theme.colors.surface};
   color: ${({ theme }) => theme.colors.textPrimary};
   min-height: 100px;
   resize: vertical;
   font-family: inherit;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+
   &:focus {
     outline: none;
     border-color: ${({ theme }) => theme.colors.primary};
@@ -108,14 +112,14 @@ const TextArea = styled.textarea`
 `;
 
 const Select = styled.select`
-  padding: 0.75rem;
+  padding: 1rem;
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 6px;
-  font-size: 0.95rem;
+  font-size: 1rem;
   background: ${({ theme }) => theme.colors.surface};
   color: ${({ theme }) => theme.colors.textPrimary};
   cursor: pointer;
-  
+
   &:focus {
     outline: none;
     border-color: ${({ theme }) => theme.colors.primary};
@@ -136,7 +140,7 @@ const Checkbox = styled.input`
 `;
 
 const CheckboxLabel = styled.label`
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: ${({ theme }) => theme.colors.textPrimary};
   cursor: pointer;
 `;
@@ -147,7 +151,7 @@ const ButtonGroup = styled.div`
   justify-content: flex-end;
   padding-top: 1rem;
   border-top: 1px solid ${({ theme }) => theme.colors.border};
-  
+
   @media (max-width: 768px) {
     flex-direction: column;
     gap: 0.75rem;
@@ -155,16 +159,16 @@ const ButtonGroup = styled.div`
 `;
 
 const Button = styled.button`
-  padding: 0.75rem 1.5rem;
+  padding: 1rem 1.5rem;
   border: none;
   border-radius: 6px;
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
-  
+
   ${({ variant, theme }) => {
-    if (variant === 'primary') {
+    if (variant === "primary") {
       return `
         background: ${theme.colors.primary};
         color: white;
@@ -214,18 +218,18 @@ const ProductForm = ({ onSubmit, initialData = null, onCancel = null }) => {
   const [product, setProduct] = useState(initialData || initialProduct);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     const { name, value, type, checked } = e.target;
-    setProduct((prev) => ({
+    setProduct(prev => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     try {
       // Convert price to cents if it's not already
       const productData = {
@@ -233,15 +237,15 @@ const ProductForm = ({ onSubmit, initialData = null, onCancel = null }) => {
         price: parseInt(product.price),
         quantity: parseInt(product.quantity),
       };
-      
+
       await onSubmit(productData);
-      
+
       if (!initialData) {
         setProduct(initialProduct);
       }
     } catch (error) {
       // TODO: Implement proper error handling with toast notifications
-      alert('Error submitting product: ' + error.message);
+      alert("Error submitting product: " + error.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -255,13 +259,13 @@ const ProductForm = ({ onSubmit, initialData = null, onCancel = null }) => {
     <FormContainer>
       <Form onSubmit={handleSubmit}>
         <FormTitle>
-          {initialData ? 'Edit Product' : 'Add New Product'}
+          {initialData ? "Edit Product" : "Add New Product"}
         </FormTitle>
-        
+
         <FormGrid>
           <FormSection>
             <SectionTitle>Basic Information</SectionTitle>
-            
+
             <InputGroup>
               <Label htmlFor="name">Product Name *</Label>
               <Input
@@ -273,7 +277,7 @@ const ProductForm = ({ onSubmit, initialData = null, onCancel = null }) => {
                 required
               />
             </InputGroup>
-            
+
             <InputGroup>
               <Label htmlFor="description">Description *</Label>
               <TextArea
@@ -285,7 +289,7 @@ const ProductForm = ({ onSubmit, initialData = null, onCancel = null }) => {
                 required
               />
             </InputGroup>
-            
+
             <InputGroup>
               <Label htmlFor="image">Image URL</Label>
               <Input
@@ -298,10 +302,10 @@ const ProductForm = ({ onSubmit, initialData = null, onCancel = null }) => {
               />
             </InputGroup>
           </FormSection>
-          
+
           <FormSection>
             <SectionTitle>Pricing & Inventory</SectionTitle>
-            
+
             <InputGroup>
               <Label htmlFor="price">Price (in cents) *</Label>
               <Input
@@ -315,7 +319,7 @@ const ProductForm = ({ onSubmit, initialData = null, onCancel = null }) => {
                 required
               />
             </InputGroup>
-            
+
             <InputGroup>
               <Label htmlFor="quantity">Quantity *</Label>
               <Input
@@ -329,7 +333,7 @@ const ProductForm = ({ onSubmit, initialData = null, onCancel = null }) => {
                 required
               />
             </InputGroup>
-            
+
             <CheckboxGroup>
               <Checkbox
                 id="inStock"
@@ -343,10 +347,10 @@ const ProductForm = ({ onSubmit, initialData = null, onCancel = null }) => {
               </CheckboxLabel>
             </CheckboxGroup>
           </FormSection>
-          
+
           <FormSection>
             <SectionTitle>Categorization</SectionTitle>
-            
+
             <InputGroup>
               <Label htmlFor="category">Category *</Label>
               <Select
@@ -358,11 +362,13 @@ const ProductForm = ({ onSubmit, initialData = null, onCancel = null }) => {
               >
                 <option value="">Select a category</option>
                 {categories.map(cat => (
-                  <option key={cat} value={cat}>{cat}</option>
+                  <option key={cat} value={cat}>
+                    {cat}
+                  </option>
                 ))}
               </Select>
             </InputGroup>
-            
+
             <InputGroup>
               <Label htmlFor="subcategory">Subcategory</Label>
               <Input
@@ -373,7 +379,7 @@ const ProductForm = ({ onSubmit, initialData = null, onCancel = null }) => {
                 onChange={handleChange}
               />
             </InputGroup>
-            
+
             <InputGroup>
               <Label htmlFor="attributes">Features/Attributes</Label>
               <Input
@@ -386,7 +392,7 @@ const ProductForm = ({ onSubmit, initialData = null, onCancel = null }) => {
             </InputGroup>
           </FormSection>
         </FormGrid>
-        
+
         <ButtonGroup>
           <Button type="button" onClick={handleReset}>
             Reset
@@ -397,7 +403,11 @@ const ProductForm = ({ onSubmit, initialData = null, onCancel = null }) => {
             </Button>
           )}
           <Button type="submit" variant="primary" disabled={isSubmitting}>
-            {isSubmitting ? 'Saving...' : (initialData ? 'Update Product' : 'Add Product')}
+            {isSubmitting
+              ? "Saving..."
+              : initialData
+                ? "Update Product"
+                : "Add Product"}
           </Button>
         </ButtonGroup>
       </Form>
