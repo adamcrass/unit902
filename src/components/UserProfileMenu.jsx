@@ -18,10 +18,10 @@ const MenuTrigger = styled.button`
   padding: 0.5rem 0.75rem;
   border: 1px solid
     ${({ theme, isScrolled }) =>
-      isScrolled ? theme.colors.border : "rgba(255, 255, 255, 0.2)"};
+      isScrolled ? theme.colors.border : theme.colors.whiteOverlayMedium};
   border-radius: 2rem;
   background: ${({ theme, isScrolled }) =>
-    isScrolled ? theme.colors.surface : "rgba(255, 255, 255, 0.1)"};
+    isScrolled ? theme.colors.surface : theme.colors.whiteOverlayLight};
   backdrop-filter: blur(10px);
   cursor: pointer;
   transition: all 0.2s ease;
@@ -29,20 +29,20 @@ const MenuTrigger = styled.button`
 
   &:hover {
     background: ${({ theme, isScrolled }) =>
-      isScrolled ? theme.colors.surfaceHover : "rgba(255, 255, 255, 0.15)"};
+      isScrolled ? theme.colors.surfaceHover : theme.colors.whiteOverlayMedium};
     border-color: ${({ theme, isScrolled }) =>
-      isScrolled ? theme.colors.primary : "rgba(255, 255, 255, 0.3)"};
+      isScrolled ? theme.colors.primary : theme.colors.whiteOverlayMedium};
     box-shadow: 0 4px 12px ${({ theme }) => theme.colors.shadow};
   }
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.primary}40;
+    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.primaryFocus};
   }
 
   &[aria-expanded="true"] {
     background: ${({ theme, isScrolled }) =>
-      isScrolled ? theme.colors.surfaceHover : "rgba(255, 255, 255, 0.2)"};
+      isScrolled ? theme.colors.surfaceHover : theme.colors.whiteOverlayMedium};
   }
 `;
 
@@ -97,7 +97,7 @@ const UserName = styled.span`
 const UserRole = styled.span`
   font-size: 1rem;
   color: ${({ theme, isScrolled }) =>
-    isScrolled ? theme.colors.textSecondary : "rgba(255, 255, 255, 0.8)"};
+    isScrolled ? theme.colors.textSecondary : theme.colors.whiteOverlayStrong};
   line-height: 1.2;
   white-space: nowrap;
   overflow: hidden;
@@ -107,7 +107,7 @@ const UserRole = styled.span`
 
 const ChevronIcon = styled(ChevronDown)`
   color: ${({ theme, isScrolled }) =>
-    isScrolled ? theme.colors.textSecondary : "rgba(255, 255, 255, 0.8)"};
+    isScrolled ? theme.colors.textSecondary : theme.colors.whiteOverlayStrong};
   width: 1rem;
   height: 1rem;
   transition: transform 0.2s ease;
@@ -122,9 +122,7 @@ const DropdownMenu = styled.div`
   background: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: 0.75rem;
-  box-shadow:
-    0 10px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: ${({ theme }) => theme.colors.dropdownShadow};
   min-width: 220px;
   z-index: ${({ theme }) => theme.zIndices.dropdown};
   opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
@@ -167,12 +165,12 @@ const MenuItem = styled.button`
   }
 
   &.danger {
-    color: ${({ theme }) => theme.colors.error || "#ef4444"};
+    color: ${({ theme }) => theme.colors.danger};
 
     &:hover,
     &:focus {
-      background: ${({ theme }) => theme.colors.error || "#ef4444"}10;
-      color: ${({ theme }) => theme.colors.error || "#ef4444"};
+      background: ${({ theme }) => theme.colors.dangerHover10};
+      color: ${({ theme }) => theme.colors.danger};
     }
   }
 
@@ -241,7 +239,6 @@ const UserProfileMenu = ({ isScrolled = false }) => {
           break;
         case "settings":
           // TODO: Navigate to settings page
-          console.log("Navigate to settings");
           break;
         case "admin":
           handleNavigation("/admin");

@@ -9,7 +9,6 @@ const ProductCard = styled.div`
   cursor: pointer;
 
   &:hover {
-    transform: translateY(-8px);
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
   }
 `;
@@ -66,7 +65,7 @@ const ReviewCount = styled.span`
 const AddToCartButton = styled.button`
   width: 100%;
   padding: 0.75rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: ${({ theme }) => theme.colors.primary};
   color: white;
   border: none;
   border-radius: 12px;
@@ -76,7 +75,7 @@ const AddToCartButton = styled.button`
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 4px 16px ${({ theme }) => theme.colors.primaryFocus};
   }
 `;
 

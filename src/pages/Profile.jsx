@@ -1,102 +1,15 @@
 // src/pages/Profile.jsx
 import React from "react";
 import styled from "@emotion/styled";
-import { User, Mail, Calendar, LogOut, ArrowLeft } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { User, Mail, Calendar, LogOut } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import Button from "../components/Button";
+import ProfileHeader from "../components/ProfileHeader";
 
 const ProfileContainer = styled.div`
   min-height: 100vh;
   background: ${({ theme }) => theme.colors.surface};
   font-family: ${({ theme }) => theme.fonts.primary};
-`;
-
-const ProfileHeader = styled.div`
-  background: linear-gradient(
-    135deg,
-    ${({ theme }) => theme.colors.primary} 0%,
-    ${({ theme }) => theme.colors.info} 100%
-  );
-  color: ${({ theme }) => theme.colors.white};
-  padding: 2rem 1rem;
-
-  ${({ theme }) => theme.mediaQueries.md} {
-    padding: 3rem 2rem;
-  }
-`;
-
-const ProfileHeaderContent = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-`;
-
-const BackButton = styled.button`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: none;
-  border: none;
-  color: ${({ theme }) => theme.colors.white};
-  font-size: 14px;
-  cursor: pointer;
-  padding: 0.5rem 0;
-  transition: color 0.2s ease;
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.secondary};
-  }
-`;
-
-const ProfileInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 1rem;
-
-  @media (min-width: 768px) {
-    flex-direction: row;
-    text-align: left;
-  }
-`;
-
-const Avatar = styled.div`
-  width: 80px;
-  height: 80px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  @media (min-width: 768px) {
-    width: 100px;
-    height: 100px;
-  }
-`;
-
-const UserDetails = styled.div`
-  flex: 1;
-`;
-
-const UserName = styled.h1`
-  font-size: 24px;
-  font-weight: 700;
-  margin: 0 0 0.5rem 0;
-
-  @media (min-width: 768px) {
-    font-size: 32px;
-  }
-`;
-
-const UserEmail = styled.p`
-  font-size: 16px;
-  opacity: 0.9;
-  margin: 0;
 `;
 
 const ProfileContent = styled.div`
@@ -182,19 +95,7 @@ const ActionsSection = styled.div`
 `;
 
 const Profile = () => {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    const { error } = await logout();
-    if (!error) {
-      navigate("/");
-    }
-  };
-
-  const handleBackToHome = () => {
-    navigate("/");
-  };
+  const { user } = useAuth();
 
   // Format join date
   const formatJoinDate = user => {
@@ -213,26 +114,13 @@ const Profile = () => {
     return user?.displayName || user?.email?.split("@")[0] || "User";
   };
 
+  const handleEdit = () => {
+    // TODO: Implement edit functionality
+  };
+
   return (
     <ProfileContainer>
-      <ProfileHeader>
-        <ProfileHeaderContent>
-          <BackButton onClick={handleBackToHome}>
-            <ArrowLeft size={16} />
-            Back to Home
-          </BackButton>
-
-          <ProfileInfo>
-            <Avatar>
-              <User size={40} />
-            </Avatar>
-            <UserDetails>
-              <UserName>{getDisplayName(user)}</UserName>
-              <UserEmail>{user?.email}</UserEmail>
-            </UserDetails>
-          </ProfileInfo>
-        </ProfileHeaderContent>
-      </ProfileHeader>
+      <ProfileHeader />
 
       <ProfileContent>
         <ProfileCard>
@@ -285,9 +173,8 @@ const Profile = () => {
             </InfoGrid>
 
             <ActionsSection>
-              <Button variant="primary" onClick={handleLogout}>
-                <LogOut size={16} />
-                Sign Out
+              <Button variant="primary" onClick={handleEdit}>
+                Edit
               </Button>
             </ActionsSection>
           </CardContent>

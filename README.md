@@ -13,6 +13,7 @@ Unit 902 allows users to browse, buy, and sell items with real-time data sync, s
 - **Icons**: Lucide
 - **Form Handling**: Chakra Forms + Yup validation
 - **Authentication & DB**: Firebase Auth + Realtime Database
+- **Shop**: Firebase Realtime Database ([RTDB](https://console.firebase.google.com/u/3/project/unit-902/overview))
 - **Payments**: Stripe API
 - **Image Uploads**: Cloudinary
 - **Email Notifications**: SendGrid (via Netlify Functions)
