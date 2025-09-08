@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "@emotion/styled";
 import UserProfileMenu from "./UserProfileMenu";
+import MobileMenuButton from "./MobileMenuButton";
+import ShopMobileNavigation from "./ShopMobileNavigation";
 
 const Header = styled.header`
   text-align: center;
@@ -9,10 +11,34 @@ const Header = styled.header`
 `;
 
 const ProfileMenuWrapper = styled.div`
+  display: none;
+
+  ${({ theme }) => theme.mediaQueries.md} {
+    display: block;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10;
+  }
+`;
+
+const ShopMobileNavWrapper = styled.div`
+  display: block;
   position: absolute;
   top: 1rem;
-  right: 1rem;
+  right: 2rem;
   z-index: 10;
+
+  ${({ theme }) => theme.mediaQueries.md} {
+    display: none;
+  }
+`;
+
+const MobileMenuWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
 `;
 
 const Title = styled.h1`
@@ -30,13 +56,21 @@ const Subtitle = styled.p`
 `;
 
 const ShopHeader = () => (
-  <Header>
-    <ProfileMenuWrapper>
-      <UserProfileMenu isScrolled={true} />
-    </ProfileMenuWrapper>
-    <Title>Marketplace</Title>
-    <Subtitle>Discover amazing products at great prices</Subtitle>
-  </Header>
+  <>
+    <Header>
+      <ProfileMenuWrapper>
+        <UserProfileMenu />
+      </ProfileMenuWrapper>
+      <Title>Marketplace</Title>
+      <Subtitle>Discover amazing products at great prices</Subtitle>
+      <ShopMobileNavWrapper>
+        <MobileMenuWrapper>
+          <MobileMenuButton />
+        </MobileMenuWrapper>
+      </ShopMobileNavWrapper>
+    </Header>
+    <ShopMobileNavigation />
+  </>
 );
 
 export default ShopHeader;

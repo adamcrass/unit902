@@ -39,10 +39,18 @@ const HeaderContent = styled.div`
   color: ${({ isScrolled, theme }) =>
     isScrolled ? theme.colors.textPrimary : theme.colors.white};
   transition: color 0.3s ease;
+  position: relative;
 
   ${({ theme }) => theme.mediaQueries.md} {
     height: 8rem;
   }
+`;
+
+const RightSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
 `;
 
 const Logo = styled.div`
@@ -91,10 +99,11 @@ const HomeHeader = () => {
             </Logo>
             {/* Desktop Navigation */}
             <DesktopNavigation />
-            {/* User Profile Menu */}
-            <UserProfileMenu isScrolled={isScrolled} />
-            {/* Mobile Menu Button */}
-            <MobileMenuButton />
+            {/* Right Section with Profile Menu and Mobile Button */}
+            <RightSection>
+              <UserProfileMenu isScrolled={isScrolled} />
+              <MobileMenuButton />
+            </RightSection>
           </HeaderContent>
         </HeaderWrapper>
         {/* Mobile Navigation */}
