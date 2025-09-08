@@ -1,7 +1,7 @@
 // src/components/UserProfileMenu.jsx
 import React from "react";
 import styled from "@emotion/styled";
-import { ChevronDown, User, Settings, LogOut, Shield } from "lucide-react";
+import { User, Settings, LogOut, Shield } from "lucide-react";
 import useProfileMenu from "../hooks/useProfileMenu";
 import useUserDisplay from "../hooks/useUserDisplay";
 import { useNavigate } from "react-router-dom";
@@ -105,16 +105,6 @@ const UserRole = styled.span`
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 120px;
-`;
-
-const ChevronIcon = styled(ChevronDown)`
-  color: ${({ theme, isScrolled }) =>
-    isScrolled ? theme.colors.textSecondary : theme.colors.whiteOverlayStrong};
-  width: 1rem;
-  height: 1rem;
-  transition: transform 0.2s ease;
-  transform: ${({ isOpen }) => (isOpen ? "rotate(180deg)" : "rotate(0deg)")};
-  flex-shrink: 0;
 `;
 
 const DropdownMenu = styled.div`
@@ -228,8 +218,6 @@ const UserProfileMenu = ({ isScrolled = false }) => {
           <UserName isScrolled={isScrolled}>{displayName}</UserName>
           <UserRole isScrolled={isScrolled}>{userRole}</UserRole>
         </UserInfo>
-
-        <ChevronIcon isOpen={isOpen} isScrolled={isScrolled} />
       </MenuTrigger>
 
       <DropdownMenu isOpen={isOpen}>

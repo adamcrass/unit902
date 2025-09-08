@@ -1,13 +1,13 @@
 // src/components/ProfileHeader.jsx
 import React from "react";
 import styled from "@emotion/styled";
-import { User, LogOut } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { User } from "lucide-react";
 
 import { useAuth } from "../contexts/AuthContext";
-import { profileNavigationItems } from "../config/navigation";
 import { Link } from "react-router-dom";
-import Button from "./Button";
+import MobileMenuButton from "./MobileMenuButton";
+import ProfileMobileNavigation from "./ProfileMobileNavigation";
+import ProfileDesktopNavigation from "./ProfileDesktopNavigation";
 
 const HeaderContainer = styled.div`
   background: ${({ theme }) => theme.colors.primary};
@@ -19,12 +19,39 @@ const HeaderContainer = styled.div`
   }
 `;
 
-const HeaderContent = styled.div`
+const HeaderWrapper = styled.div`
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 2rem;
+
+  ${({ theme }) => theme.mediaQueries.md} {
+    padding: 0 2rem;
+  }
+`;
+
+const HeaderContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+`;
+
+const NavigationSection = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+`;
+
+const Logo = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const LogoText = styled.h5`
+  ${({ theme }) => theme.mixins.textH5}
+  color: ${({ theme }) => theme.colors.white};
+  margin: 0;
 `;
 
 const ProfileInfo = styled.div`
@@ -40,13 +67,6 @@ const ProfileInfo = styled.div`
   }
 `;
 
-const NavigationBar = styled.div`
-  display: flex;
-  gap: 2rem;
-  justify-content: flex-end;
-  align-items: center;
-`;
-
 const NavLink = styled(Link)`
   color: ${({ theme }) => theme.colors.white};
   text-decoration: none;
@@ -55,19 +75,6 @@ const NavLink = styled(Link)`
 
   &:hover {
     color: ${({ theme }) => theme.colors.whiteOverlayStrong};
-  }
-`;
-
-const StyledLogoutButton = styled(Button)`
-  width: auto;
-  padding: 0.5rem 1rem;
-  font-size: 1.8rem;
-  min-height: auto;
-  border: none;
-
-  &:hover {
-    background: ${({ theme }) => theme.colors.whiteOverlayLight};
-    transform: none;
   }
 `;
 
@@ -114,53 +121,51 @@ const UserEmail = styled.p`
 `;
 
 const ProfileHeader = () => {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
+  const { user } = useAuth();
 
   // Get display name
   const getDisplayName = user => {
     return user?.displayName || user?.email?.split("@")[0] || "User";
   };
 
-  const handleLogout = async () => {
-    const { error } = await logout();
-    if (!error) {
-      navigate("/");
-    }
-  };
-
   return (
-    <HeaderContainer>
-      <HeaderContent>
-        <NavigationBar>
-          {profileNavigationItems.map(item => (
-            <NavLink key={item.href} to={item.href}>
-              {item.label}
-            </NavLink>
-          ))}
-          <div>
-            <Button variant="ghost" size="sm" onClick={handleLogout}>
-              <LogOut size={20} />
-              Sign Out
-            </Button>
-          </div>
-        </NavigationBar>
+    <>
+      <HeaderContainer>
+        <HeaderWrapper>
+          <HeaderContent>
+            <NavigationSection>
+              {/* Logo */}
+              <Logo aria-label="Unit 902">
+                <LogoText>Unit 902</LogoText>
+              </Logo>
 
-        <ProfileInfo>
-          <Avatar>
-            {user?.photoURL ? (
-              <ProfileImage src={user.photoURL} alt="Profile" />
-            ) : (
-              <User size={40} />
-            )}
-          </Avatar>
-          <UserDetails>
-            <UserName>{getDisplayName(user)}</UserName>
-            <UserEmail>{user?.email}</UserEmail>
-          </UserDetails>
-        </ProfileInfo>
-      </HeaderContent>
-    </HeaderContainer>
+              {/* Desktop Navigation */}
+              <ProfileDesktopNavigation />
+
+              {/* Mobile Menu Button */}
+              <MobileMenuButton />
+            </NavigationSection>
+
+            <ProfileInfo>
+              <Avatar>
+                {user?.photoURL ? (
+                  <ProfileImage src={user.photoURL} alt="Profile" />
+                ) : (
+                  <User size={40} />
+                )}
+              </Avatar>
+              <UserDetails>
+                <UserName>{getDisplayName(user)}</UserName>
+                <UserEmail>{user?.email}</UserEmail>
+              </UserDetails>
+            </ProfileInfo>
+          </HeaderContent>
+        </HeaderWrapper>
+
+        {/* Mobile Navigation */}
+        <ProfileMobileNavigation />
+      </HeaderContainer>
+    </>
   );
 };
 
