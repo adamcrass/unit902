@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import {
   Pencil,
@@ -14,11 +14,7 @@ import {
   Users,
   Activity,
   UserX,
-  Loader,
-  AlertCircle,
 } from "lucide-react";
-import { userService } from '../services/userService';
-import { useAuth } from '../contexts/AuthContext';
 
 // Styled Components
 const Container = styled.div`
@@ -402,114 +398,87 @@ const EmptyDescription = styled.p`
   margin: 0;
 `;
 
-// Loading and Error components
-const LoadingContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 4rem 2rem;
-  color: #6b7280;
-`;
-
-const LoadingSpinner = styled.div`
-  animation: spin 1s linear infinite;
-  margin-bottom: 1rem;
-  
-  @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-`;
-
-const ErrorContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 4rem 2rem;
-  color: #ef4444;
-  text-align: center;
-`;
-
-const ErrorIcon = styled.div`
-  margin-bottom: 1rem;
-  color: #ef4444;
-`;
-
-const ErrorTitle = styled.h3`
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin: 0 0 0.5rem 0;
-`;
-
-const ErrorMessage = styled.p`
-  color: #6b7280;
-  margin: 0 0 1rem 0;
-`;
-
-const RetryButton = styled.button`
-  background: #ef4444;
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-`;
+// Mock data
+const mockUsers = [
+  {
+    id: 1,
+    name: "Joshua Crass",
+    email: "joshua.crass@gmail.com",
+    role: "admin",
+    status: "active",
+    lastLogin: "2025-01-09",
+    avatar: "JC",
+  },
+  {
+    id: 2,
+    name: "Sarah Johnson",
+    email: "sarah.johnson@company.com",
+    role: "manager",
+    status: "active",
+    lastLogin: "2025-01-08",
+    avatar: "SJ",
+  },
+  {
+    id: 3,
+    name: "Mike Chen",
+    email: "mike.chen@company.com",
+    role: "staff",
+    status: "active",
+    lastLogin: "2025-01-07",
+    avatar: "MC",
+  },
+  {
+    id: 4,
+    name: "Emma Wilson",
+    email: "emma.wilson@company.com",
+    role: "staff",
+    status: "suspended",
+    lastLogin: "2025-01-05",
+    avatar: "EW",
+  },
+  {
+    id: 5,
+    name: "David Brown",
+    email: "david.brown@company.com",
+    role: "staff",
+    status: "inactive",
+    lastLogin: "2024-12-15",
+    avatar: "DB",
+  },
+  {
+    id: 6,
+    name: "Lisa Garcia",
+    email: "lisa.garcia@company.com",
+    role: "manager",
+    status: "active",
+    lastLogin: "2025-01-08",
+    avatar: "LG",
+  },
+];
 
 const AdminUserManagement = () => {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState(mockUsers);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const { user: currentUser } = useAuth();
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-        const userData = await userService.getAllUsers();
-        setUsers(userData);
-      } catch (err) {
-        console.error('Failed to fetch users:', err);
-        setError('Failed to load users. Please try again.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUsers();
-  }, []);
 
   const handleEditUser = userId => {
     console.log("Edit user:", userId);
-    // TODO: Implement edit user modal/form
   };
 
-  const handleDeleteUser = async userId => {
+  const handleDeleteUser = userId => {
     if (window.confirm("Are you sure you want to delete this user?")) {
-      try {
-        await userService.deleteUser(userId);
-        setUsers(users.filter(user => user.id !== userId));
-      } catch (err) {
-        alert('Failed to delete user. Please try again.');
-        console.error('Error deleting user:', err);
-      }
+      setUsers(users.filter(user => user.id !== userId));
     }
   };
 
   const handleAddUser = () => {
     console.log("Add new user");
-    // TODO: Implement add user modal/form
   };
 
   const filteredUsers = users.filter(user => {
     const matchesSearch =
-      (user.displayName || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (user.email || '').toLowerCase().includes(searchTerm.toLowerCase());
+      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesFilter =
       filterStatus === "all" || user.status === filterStatus;
     return matchesSearch && matchesFilter;
@@ -643,18 +612,18 @@ const AdminUserManagement = () => {
               <TableBody>
                 {filteredUsers.map((user, index) => (
                   <TableRow key={user.id}>
-                      <TableCell>
-                        <UserInfo>
-                          <Avatar gradient={getAvatarColor(index)}>
-                            {user.avatar}
-                          </Avatar>
-                          <UserDetails>
-                            <UserName>{user.displayName}</UserName>
-                            <UserEmail>
-                              <Mail size={14} />
-                              {user.email}
-                            </UserEmail>
-                          </UserDetails>
+                    <TableCell>
+                      <UserInfo>
+                        <Avatar gradient={getAvatarColor(index)}>
+                          {user.avatar}
+                        </Avatar>
+                        <UserDetails>
+                          <UserName>{user.name}</UserName>
+                          <UserEmail>
+                            <Mail size={14} />
+                            {user.email}
+                          </UserEmail>
+                        </UserDetails>
                       </UserInfo>
                     </TableCell>
                     <TableCell>
@@ -666,7 +635,7 @@ const AdminUserManagement = () => {
                     <TableCell>
                       <DateInfo>
                         <Calendar size={14} />
-                        {userService.formatDate(user.lastLogin)}
+                        {user.lastLogin}
                       </DateInfo>
                     </TableCell>
                     <TableCell>
@@ -696,43 +665,18 @@ const AdminUserManagement = () => {
             </Table>
           </TableContainer>
 
-          {filteredUsers.length === 0 && !loading && (
+          {filteredUsers.length === 0 && (
             <EmptyState>
               <EmptyIcon>
                 <User size={32} />
               </EmptyIcon>
               <EmptyTitle>No users found</EmptyTitle>
               <EmptyDescription>
-                {users.length === 0 
-                  ? "No users have been registered yet." 
-                  : "Try adjusting your search criteria or filter options."
-                }
+                Try adjusting your search criteria or filter options.
               </EmptyDescription>
             </EmptyState>
           )}
         </MainCard>
-
-        {loading && (
-          <LoadingContainer>
-            <LoadingSpinner>
-              <Loader size={32} />
-            </LoadingSpinner>
-            <p>Loading users...</p>
-          </LoadingContainer>
-        )}
-
-        {error && (
-          <ErrorContainer>
-            <ErrorIcon>
-              <AlertCircle size={32} />
-            </ErrorIcon>
-            <ErrorTitle>Error Loading Users</ErrorTitle>
-            <ErrorMessage>{error}</ErrorMessage>
-            <RetryButton onClick={loadUsers}>
-              Try Again
-            </RetryButton>
-          </ErrorContainer>
-        )}
       </ContentWrapper>
     </Container>
   );
