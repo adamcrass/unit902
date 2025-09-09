@@ -48,14 +48,16 @@ src/
 
 ## 🚀 Getting Started
 
-### 1. Clone the repo
+### For New Developers
+
+#### 1. Clone the repo
 
 ```bash
-git clone https://github.com/transpiled/unit-902.git
-cd unit-902
+git clone https://github.com/adamcrass/unit902.git
+cd unit902
 ```
 
-### 2. Enable Corepack (one-time setup)
+#### 2. Enable Corepack (one-time setup)
 
 ```bash
 corepack enable
@@ -63,13 +65,13 @@ corepack enable
 
 > This ensures you're using the correct Yarn version specified in package.json
 
-### 3. Install dependencies
+#### 3. Install dependencies
 
 ```bash
 yarn install
 ```
 
-### 4. Set up environment variables
+#### 4. Set up environment variables
 
 Copy the example environment file and fill in your values:
 
@@ -79,13 +81,70 @@ cp .env.example .env
 
 Then edit `.env` with your Firebase, Cloudinary, Stripe, and Sentry credentials.
 
-### 5. Run the app locally
+#### 5. Run the app locally
 
 ```bash
 yarn dev
 ```
 
 > Starts at `http://localhost:1027`
+
+### For Existing Developers (Cleanup After Yarn Migration)
+
+If you already have the repo cloned and are experiencing issues after our recent Yarn upgrade and PnP → node_modules migration, follow these cleanup steps:
+
+#### 1. Pull the latest changes
+
+```bash
+git pull origin main
+```
+
+#### 2. Clean up old Yarn/PnP artifacts
+
+```bash
+# Remove old dependencies and lock file
+rm -rf node_modules yarn.lock
+
+# Remove PnP artifacts (if they exist)
+rm -rf .yarn/cache .yarn/unplugged .yarn/sdks .pnp.*
+
+# Remove any old build artifacts
+rm -rf dist build
+```
+
+#### 3. Enable Corepack and reinstall
+
+```bash
+# Ensure you're using the correct Yarn version
+corepack enable
+
+# Fresh install with new configuration
+yarn install
+```
+
+#### 4. Set up environment variables (if needed)
+
+```bash
+# Copy example env file if you don't have .env yet
+cp .env.example .env
+```
+
+#### 5. Verify everything works
+
+```bash
+# Test build
+yarn build
+
+# Start development server
+yarn dev
+```
+
+**Common Issues & Solutions:**
+
+- **"Cannot find module" errors**: Run the cleanup steps above
+- **Yarn version mismatch**: Run `corepack enable` then `yarn install`
+- **PnP-related errors**: Delete `.yarn/cache`, `.yarn/unplugged`, and `.pnp.*` files
+- **Build failures**: Delete `dist/` and `node_modules/`, then reinstall
 
 ---
 
