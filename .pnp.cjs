@@ -58,6 +58,7 @@ const RAW_RUNTIME_STATE =
           ["lucide-react", "virtual:a4bdbac11907bc8b9408f7789b9bf28002116a5f8476905e5d752399d8618069115ef6d2ee54c6a33e66f31d0ea2ee66353c36d667e6c5f1724663685b02ba0d#npm:0.542.0"],\
           ["nodemon", "npm:3.1.10"],\
           ["prettier", "npm:3.6.2"],\
+          ["qrcode-terminal", "npm:0.12.0"],\
           ["react", "npm:18.3.1"],\
           ["react-dom", "virtual:a4bdbac11907bc8b9408f7789b9bf28002116a5f8476905e5d752399d8618069115ef6d2ee54c6a33e66f31d0ea2ee66353c36d667e6c5f1724663685b02ba0d#npm:18.3.1"],\
           ["react-router-dom", "virtual:a4bdbac11907bc8b9408f7789b9bf28002116a5f8476905e5d752399d8618069115ef6d2ee54c6a33e66f31d0ea2ee66353c36d667e6c5f1724663685b02ba0d#npm:7.8.2"],\
@@ -11663,6 +11664,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["qrcode-terminal", [\
+      ["npm:0.12.0", {\
+        "packageLocation": "../../.yarn/berry/cache/qrcode-terminal-npm-0.12.0-f81f8a6a67-10c0.zip/node_modules/qrcode-terminal/",\
+        "packageDependencies": [\
+          ["qrcode-terminal", "npm:0.12.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["queue-microtask", [\
       ["npm:1.2.3", {\
         "packageLocation": "../../.yarn/berry/cache/queue-microtask-npm-1.2.3-fcc98e4e2d-10c0.zip/node_modules/queue-microtask/",\
@@ -12979,6 +12989,7 @@ const RAW_RUNTIME_STATE =
           ["lucide-react", "virtual:a4bdbac11907bc8b9408f7789b9bf28002116a5f8476905e5d752399d8618069115ef6d2ee54c6a33e66f31d0ea2ee66353c36d667e6c5f1724663685b02ba0d#npm:0.542.0"],\
           ["nodemon", "npm:3.1.10"],\
           ["prettier", "npm:3.6.2"],\
+          ["qrcode-terminal", "npm:0.12.0"],\
           ["react", "npm:18.3.1"],\
           ["react-dom", "virtual:a4bdbac11907bc8b9408f7789b9bf28002116a5f8476905e5d752399d8618069115ef6d2ee54c6a33e66f31d0ea2ee66353c36d667e6c5f1724663685b02ba0d#npm:18.3.1"],\
           ["react-router-dom", "virtual:a4bdbac11907bc8b9408f7789b9bf28002116a5f8476905e5d752399d8618069115ef6d2ee54c6a33e66f31d0ea2ee66353c36d667e6c5f1724663685b02ba0d#npm:7.8.2"],\
