@@ -6,7 +6,7 @@
   "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/transpiled/unit902.git"
+    "url": "https://github.com/adamcrass/unit902.git"
   },
   "scripts": {
     "dev": "vite --port 1027",

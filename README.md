@@ -20,7 +20,7 @@ Unit 902 allows users to browse, buy, and sell items with real-time data sync, s
 - **Routing**: React Router
 - **State Management**: React Context API
 - **Testing**: React Testing Library + Jest + Babel
-- **Tooling**: Yarn 4 (PnP), ESLint, Prettier, Nodemon
+- **Tooling**: Yarn 4 (node_modules), ESLint, Prettier, Nodemon
 - **Monitoring**: Sentry
 
 ---
@@ -55,13 +55,31 @@ git clone https://github.com/transpiled/unit-902.git
 cd unit-902
 ```
 
-### 2. Install dependencies
+### 2. Enable Corepack (one-time setup)
 
 ```bash
-yarn
+corepack enable
 ```
 
-### 3. Run the app locally
+> This ensures you're using the correct Yarn version specified in package.json
+
+### 3. Install dependencies
+
+```bash
+yarn install
+```
+
+### 4. Set up environment variables
+
+Copy the example environment file and fill in your values:
+
+```bash
+cp .env.example .env
+```
+
+Then edit `.env` with your Firebase, Cloudinary, Stripe, and Sentry credentials.
+
+### 5. Run the app locally
 
 ```bash
 yarn dev
