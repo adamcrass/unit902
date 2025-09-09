@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ScrollProvider } from "./contexts/ScrollContext";
 import { NavigationProvider } from "./contexts/NavigationContext";
+import { AdminProvider } from "./contexts/AdminContext";
 
 import { system, emotionTheme } from "./theme";
 import Home from "./pages/Home";
@@ -52,10 +53,12 @@ const App = () => {
                       }
                     />
                     <Route
-                      path="/admin"
+                      path="/admin/*"
                       element={
                         <ProtectedRoute>
-                          <Admin />
+                          <AdminProvider>
+                            <Admin />
+                          </AdminProvider>
                         </ProtectedRoute>
                       }
                     />

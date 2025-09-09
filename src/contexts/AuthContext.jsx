@@ -9,6 +9,7 @@ import {
   sendPasswordResetEmail
 } from 'firebase/auth';
 import { auth, googleProvider } from '../config/firebase';
+import { userService } from '../services/userService';
 
 const AuthContext = createContext({});
 
@@ -47,6 +48,11 @@ export const AuthProvider = ({ children }) => {
   const signUpWithEmail = async (email, password) => {
     try {
       const result = await createUserWithEmailAndPassword(auth, email, password);
+      // Create user metadata in Realtime Database
+      await userService.createUserMetadata(result.user.uid, {
+        email: result.user.email,
+        displayName: result.user.displayName
+      });
       return { user: result.user, error: null };
     } catch (error) {
       return { user: null, error: error.message };
@@ -57,6 +63,18 @@ export const AuthProvider = ({ children }) => {
   const signInWithGoogle = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
+      // Create user metadata if this is a new user
+      try {
+        await userService.createUserMetadata(result.user.uid, {
+          email: result.user.email,
+          displayName: result.user.displayName
+        });
+      } catch (metadataError) {
+        // User metadata might already exist, that's okay
+        console.log('User metadata may already exist');
+      }
+      // Update last login
+      await userService.updateLastLogin(result.user.uid);
       return { user: result.user, error: null };
     } catch (error) {
       return { user: null, error: error.message };

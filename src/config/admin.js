@@ -4,6 +4,7 @@ export const adminSections = [
   { id: "orders", label: "Orders", category: "Sales" },
   { id: "customers", label: "Customers", category: "Sales" },
   { id: "analytics", label: "Analytics", category: "Reports" },
+  { id: "users", label: "Users", category: "System" },
   { id: "settings", label: "Settings", category: "System" },
 ];
 
@@ -13,7 +14,7 @@ export const adminTabs = [
   { id: "manage", label: "Manage Products" },
 ];
 
-export const defaultActiveSection = "products";
+export const defaultActiveSection = "users";
 
 // Product stats configuration
 export const getProductStatsConfig = stats => [

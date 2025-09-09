@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 import AdminProductSection from "../components/AdminProductSection";
 import AdminSidebar from "../components/AdminSidebar";
 import AdminHeader from "../components/AdminHeader";
+import AdminUserManagement from "../components/AdminUserManagement";
 import { AdminProductProvider } from "../contexts/AdminProductContext";
 import { AdminProvider, useAdmin } from "../contexts/AdminContext";
 
@@ -44,6 +45,8 @@ const AdminContent = () => {
         return <div>Customers section coming soon...</div>;
       case "analytics":
         return <div>Analytics section coming soon...</div>;
+      case "users":
+        return <AdminUserManagement />;
       case "settings":
         return <div>Settings section coming soon...</div>;
       default:
@@ -70,11 +73,7 @@ const AdminContent = () => {
 };
 
 const Admin = () => {
-  return (
-    <AdminProvider>
-      <AdminContent />
-    </AdminProvider>
-  );
+  return <AdminContent />;
 };
 
 export default Admin;
