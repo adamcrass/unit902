@@ -9,7 +9,7 @@
     "url": "https://github.com/adamcrass/unit902.git"
   },
   "scripts": {
-    "dev": "vite --port 1027",
+    "dev": "./dev.sh",
     "build": "vite build",
     "preview": "vite preview",
     "test": "jest",
@@ -28,6 +28,7 @@
     "@fontsource/jetbrains-mono": "^5.2.6",
     "@fontsource/questrial": "^5.2.6",
     "firebase": "^12.2.1",
+    "firebase-admin": "^13.5.0",
     "framer-motion": "^12.23.12",
     "lucide-react": "^0.542.0",
     "react": "^18.3.1",
