@@ -145,7 +145,30 @@ if command -v node &> /dev/null && node -e "require('qrcode-terminal')" &> /dev/
   "
 else
   echo "   📱 Manual URL: http://$LOCAL_IP:$PORT"
-  echo "   💡 Install qrcode-terminal for QR codes: yarn add -D qrcode-terminal"
+  echo ""
+  echo "   💡 qrcode-terminal is not installed."
+  echo -n "   Would you like to install it now? (y/n): "
+  read -r response
+  
+  if [[ "$response" =~ ^[Yy]([Ee][Ss])?$ ]]; then
+    echo "   📦 Installing qrcode-terminal with yarn..."
+    if command -v yarn &> /dev/null; then
+      yarn add -D qrcode-terminal
+    else
+      echo "   ❌ Yarn not found. Please install yarn or install qrcode-terminal manually with: yarn add -D qrcode-terminal"
+    fi
+    
+    # Try to generate QR code after installation
+    if node -e "require('qrcode-terminal')" &> /dev/null; then
+      echo "   ✅ Installation successful! Generating QR code:"
+      echo ""
+      node -e "require('qrcode-terminal').generate('http://$LOCAL_IP:$PORT', { small: true });"
+    else
+      echo "   ❌ Installation failed. You can install manually with: yarn add -D qrcode-terminal"
+    fi
+  else
+    echo "   Skipping installation. You can install later with: yarn add -D qrcode-terminal"
+  fi
 fi
 
 echo ""

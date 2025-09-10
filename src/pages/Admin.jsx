@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import AdminProductSection from "../components/AdminProductSection";
 import AdminSidebar from "../components/AdminSidebar";
 import AdminHeader from "../components/AdminHeader";
-import AdminUserManagement from "../components/AdminUserManagement";
+import UserManagementSection from "../components/UserManagementSection";
 import { AdminProductProvider } from "../contexts/AdminProductContext";
 import { AdminProvider, useAdmin } from "../contexts/AdminContext";
 
@@ -46,7 +46,7 @@ const AdminContent = () => {
       case "analytics":
         return <div>Analytics section coming soon...</div>;
       case "users":
-        return <AdminUserManagement />;
+        return <UserManagementSection />;
       case "settings":
         return <div>Settings section coming soon...</div>;
       default:

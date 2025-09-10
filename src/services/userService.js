@@ -26,9 +26,14 @@ const API_BASE = '/.netlify/functions';
 const getAuthToken = async () => {
   const user = auth.currentUser;
   if (!user) {
-    throw new Error('User not authenticated');
+    throw new Error('User not authenticated. Please log in and try again.');
   }
-  return await user.getIdToken();
+  try {
+    return await user.getIdToken();
+  } catch (error) {
+    console.error('Error getting auth token:', error);
+    throw new Error('Failed to get authentication token. Please log in again.');
+  }
 };
 
 // Helper function to make API calls
@@ -44,10 +49,38 @@ const apiCall = async (endpoint, options = {}) => {
     ...options,
   });
 
-  const data = await response.json();
+  // Check if response is JSON
+  const contentType = response.headers.get('content-type');
+  const isJson = contentType && contentType.includes('application/json');
+
+  let data;
+  if (isJson) {
+    try {
+      data = await response.json();
+    } catch (jsonError) {
+      console.error('Failed to parse JSON response:', jsonError);
+      const text = await response.text();
+      throw new Error(`Invalid JSON response: ${text.substring(0, 200)}...`);
+    }
+  } else {
+    // If not JSON, get text response for better error messages
+    const text = await response.text();
+    console.error('Non-JSON response received:', {
+      status: response.status,
+      statusText: response.statusText,
+      contentType,
+      body: text.substring(0, 500)
+    });
+    
+    if (!response.ok) {
+      throw new Error(`API request failed (${response.status}): ${response.statusText}. Response: ${text.substring(0, 200)}...`);
+    }
+    
+    throw new Error(`Expected JSON response but received: ${contentType}. Response: ${text.substring(0, 200)}...`);
+  }
 
   if (!response.ok) {
-    throw new Error(data.error || 'API request failed');
+    throw new Error(data.error || `API request failed (${response.status}): ${response.statusText}`);
   }
 
   // Handle different response formats
@@ -72,7 +105,7 @@ export const fetchUsers = async () => {
     return await apiCall('/user-management?action=fetchUsers');
   } catch (error) {
     console.error('Error fetching users:', error);
-    throw new Error('Failed to fetch users');
+    throw new Error(`Failed to fetch users: ${error.message}`);
   }
 };
 
@@ -136,12 +169,15 @@ export const deleteUserAccount = async (userId) => {
  */
 export const getUserById = async (userId) => {
   try {
+    if (!userId) {
+      throw new Error('User ID is required');
+    }
     return await apiCall(
       `/user-management?action=getUserById&userId=${userId}`,
     );
   } catch (error) {
     console.error('Error fetching user:', error);
-    throw new Error('Failed to fetch user');
+    throw new Error(`Failed to fetch user: ${error.message}`);
   }
 };
 

@@ -6,6 +6,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { ScrollProvider } from "./contexts/ScrollContext";
 import { NavigationProvider } from "./contexts/NavigationContext";
 import { AdminProvider } from "./contexts/AdminContext";
+import { GlobalModalProvider } from "./contexts/GlobalModalContext";
 
 import { system, emotionTheme } from "./theme";
 import Home from "./pages/Home";
@@ -26,43 +27,45 @@ const App = () => {
             <ShopProvider>
               <Router>
                 <NavigationProvider>
-                  <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route
-                      path="/login"
-                      element={
-                        <PublicRoute>
-                          <Login />
-                        </PublicRoute>
-                      }
-                    />
-                    <Route
-                      path="/profile"
-                      element={
-                        <ProtectedRoute>
-                          <Profile />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/shop"
-                      element={
-                        <ProtectedRoute>
-                          <Shop />
-                        </ProtectedRoute>
-                      }
-                    />
-                    <Route
-                      path="/admin/*"
-                      element={
-                        <ProtectedRoute>
-                          <AdminProvider>
-                            <Admin />
-                          </AdminProvider>
-                        </ProtectedRoute>
-                      }
-                    />
-                  </Routes>
+                  <GlobalModalProvider>
+                    <Routes>
+                      <Route path="/" element={<Home />} />
+                      <Route
+                        path="/login"
+                        element={
+                          <PublicRoute>
+                            <Login />
+                          </PublicRoute>
+                        }
+                      />
+                      <Route
+                        path="/profile"
+                        element={
+                          <ProtectedRoute>
+                            <Profile />
+                          </ProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="/shop"
+                        element={
+                          <ProtectedRoute>
+                            <Shop />
+                          </ProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="/admin/*"
+                        element={
+                          <ProtectedRoute>
+                            <AdminProvider>
+                              <Admin />
+                            </AdminProvider>
+                          </ProtectedRoute>
+                        }
+                      />
+                    </Routes>
+                  </GlobalModalProvider>
                 </NavigationProvider>
               </Router>
             </ShopProvider>
